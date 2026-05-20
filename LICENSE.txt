@@ -1,0 +1,47 @@
+LICENCIA DE USO DE MANUALTECH
+
+Ultima actualizacion: 19 de mayo de 2026
+
+Manualtech es un software propietario. Todos los derechos sobre el programa,
+su nombre, logotipo, codigo, interfaz, documentacion y archivos asociados
+pertenecen a su titular.
+
+Se concede al usuario una licencia limitada, personal, no exclusiva,
+no transferible y revocable para instalar y utilizar Manualtech en un equipo
+propio o autorizado.
+
+Queda prohibido, salvo autorizacion previa y por escrito del titular:
+
+1. Copiar, distribuir, vender, alquilar, sublicenciar, publicar o poner
+   Manualtech a disposicion de terceros.
+2. Subir Manualtech a internet, repositorios, plataformas de descarga,
+   redes sociales, servicios cloud o cualquier otro medio de distribucion.
+3. Modificar, adaptar, traducir, descompilar, realizar ingenieria inversa
+   o intentar obtener el codigo fuente del programa.
+4. Eliminar o alterar avisos de copyright, nombre comercial, logotipo,
+   licencia o cualquier identificacion del titular.
+5. Usar Manualtech para crear productos derivados destinados a distribucion
+   publica o comercial sin permiso escrito.
+
+El usuario conserva la propiedad de sus propios documentos, manuales,
+imagenes, bases de datos y archivos importados en Manualtech.
+
+Manualtech se proporciona "tal cual", sin garantia de funcionamiento
+ininterrumpido ni de adecuacion a un fin concreto. El titular no sera
+responsable de perdidas de datos, danos indirectos, interrupciones de actividad
+o cualquier perjuicio derivado del uso del software.
+
+La instalacion o uso de Manualtech implica la aceptacion de esta licencia.
+Si el usuario no acepta estos terminos, no debe instalar ni utilizar el
+programa.
+
+Cualquier permiso especial de distribucion, instalacion para terceros, uso
+comercial ampliado o integracion en otros productos debera concederse
+expresamente por escrito por el titular.
+
+COMPONENTES DE TERCEROS
+
+Manualtech puede incluir o utilizar componentes de terceros sujetos a sus
+propias licencias. Dichas licencias no modifican la licencia propietaria de
+Manualtech sobre el codigo, marca, logotipo e interfaz propios del programa.
+Consulta THIRD_PARTY_NOTICES.md para mas informacion.

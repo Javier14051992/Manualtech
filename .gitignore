@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+.venv/
+venv/
+env/
+.env
+.env.*
+
+# Logs
+logs/
+*.log
+
+# Manualtech user data
+data/manuales/**
+data/previews/**
+data/manuales.db
+data/*.db
+data/*.db-*
+
+# Keep bundled OCR language data
+!data/
+!data/tessdata/
+!data/tessdata/*.traineddata
+
+# Build and release artifacts
+build/
+dist/
+installer_output/
+release/
+*.zip
+*.7z
+*.rar
+*.exe
+*.msi
+
+# Local project notes
+ESTADO_PROYECTO.md
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
