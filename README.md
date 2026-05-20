@@ -39,9 +39,6 @@ Este repositorio publico se publica como codigo fuente visible para revision y p
 
 Manualtech trabaja en local.
 
-- No usa OpenAI API.
-- No usa ChatGPT API.
-- No usa Google API.
 - No sube PDFs a internet.
 - No necesita servidor.
 - No necesita cuenta.
