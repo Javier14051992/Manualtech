@@ -150,6 +150,28 @@ logs/app.log
 7. Selecciona un resultado para ver la preview de la pagina.
 8. Usa `Abrir PDF` para abrir el documento con el visor predeterminado.
 
+## Rendimiento con bibliotecas grandes
+
+Manualtech esta preparado para manejar bibliotecas con muchos documentos y miles
+de paginas, con estas decisiones tecnicas:
+
+- Indexado pagina a pagina por streaming para no cargar todo el texto del PDF en
+  memoria antes de guardarlo.
+- SQLite en modo WAL para mejorar lecturas y escrituras locales.
+- SQLite FTS5 en modo external content para reducir duplicacion de texto en la
+  base de datos.
+- Busquedas limitadas a resultados relevantes para evitar saturar la interfaz.
+- Cache de previews limitada para que `data/previews/` no crezca sin control.
+- Reindexado con optimizacion del indice FTS al terminar.
+
+Limitaciones actuales:
+
+- La importacion y el OCR se ejecutan en el proceso principal; durante manuales
+  grandes la interfaz puede quedar ocupada aunque muestre progreso.
+- El OCR de PDFs escaneados sigue siendo la operacion mas lenta.
+- Carpetas con miles de imagenes muy pesadas pueden requerir mucha memoria al
+  convertirse a PDF.
+
 ## Carpetas de imagenes y OCR
 
 Manualtech puede importar una carpeta de imagenes y convertirla a PDF. Es util cuando un manual esta formado por paginas sueltas en JPG o PNG.

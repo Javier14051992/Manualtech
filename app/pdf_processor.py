@@ -7,7 +7,7 @@ import re
 import shutil
 import sys
 from pathlib import Path
-from typing import Callable
+from typing import Callable, Iterator
 
 import fitz
 
@@ -126,6 +126,24 @@ class PDFProcessor:
         ocr_dpi: int = 150,
         progress_callback: Callable[[int, int], None] | None = None,
     ) -> list[PageText]:
+        return list(
+            self.iter_pages(
+                pdf_path,
+                use_ocr=use_ocr,
+                ocr_language=ocr_language,
+                ocr_dpi=ocr_dpi,
+                progress_callback=progress_callback,
+            )
+        )
+
+    def iter_pages(
+        self,
+        pdf_path: Path,
+        use_ocr: bool = False,
+        ocr_language: str = "auto",
+        ocr_dpi: int = 150,
+        progress_callback: Callable[[int, int], None] | None = None,
+    ) -> Iterator[PageText]:
         path = Path(pdf_path)
         if not path.exists():
             raise PDFProcessingError("No se encontro el PDF para extraer texto.")
@@ -141,7 +159,6 @@ class PDFProcessor:
                     "El PDF esta protegido con contrasena y no se puede indexar."
                 )
 
-            pages: list[PageText] = []
             tessdata = self.find_tessdata() if use_ocr else None
             ocr_available = bool(tessdata)
             resolved_language = self.resolve_ocr_language(tessdata, ocr_language)
@@ -164,10 +181,9 @@ class PDFProcessor:
                         )
                 except Exception:
                     logger.exception("No se pudo extraer texto de la pagina %s", index + 1)
-                pages.append(PageText(page_number=index + 1, text=self._clean_text(text)))
+                yield PageText(page_number=index + 1, text=self._clean_text(text))
                 if progress_callback:
                     progress_callback(index + 1, document.page_count)
-            return pages
         finally:
             document.close()
 

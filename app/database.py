@@ -29,9 +29,14 @@ class Database:
             directory.mkdir(parents=True, exist_ok=True)
 
     def connect(self) -> sqlite3.Connection:
-        conn = sqlite3.connect(self.db_path)
+        conn = sqlite3.connect(self.db_path, timeout=30)
         conn.row_factory = sqlite3.Row
+        conn.execute("PRAGMA busy_timeout = 30000")
         conn.execute("PRAGMA foreign_keys = ON")
+        conn.execute("PRAGMA journal_mode = WAL")
+        conn.execute("PRAGMA synchronous = NORMAL")
+        conn.execute("PRAGMA temp_store = MEMORY")
+        conn.execute("PRAGMA cache_size = -64000")
         return conn
 
     def initialize(self) -> None:
@@ -70,24 +75,59 @@ class Database:
 
                 CREATE INDEX IF NOT EXISTS idx_pages_manual_id
                     ON pages (manual_id);
+
+                CREATE INDEX IF NOT EXISTS idx_manuals_created_at
+                    ON manuals (created_at);
                 """
             )
-            try:
-                conn.execute(
-                    """
-                    CREATE VIRTUAL TABLE IF NOT EXISTS pages_fts USING fts5(
-                        page_id UNINDEXED,
-                        text,
-                        tokenize = 'unicode61 remove_diacritics 2'
-                    );
-                    """
-                )
-            except sqlite3.OperationalError as exc:
-                raise RuntimeError(
-                    "La instalacion de SQLite de este Python no tiene FTS5 habilitado."
-                ) from exc
+            self._ensure_fts_table(conn)
             self._ensure_manual_columns(conn)
             conn.commit()
+
+    def _ensure_fts_table(self, conn: sqlite3.Connection) -> None:
+        row = conn.execute(
+            "SELECT sql FROM sqlite_master WHERE name = 'pages_fts'"
+        ).fetchone()
+        if row is not None:
+            sql = (row["sql"] or "").lower()
+            columns = [
+                column["name"]
+                for column in conn.execute("PRAGMA table_info(pages_fts)")
+            ]
+            uses_external_content = (
+                "content='pages'" in sql
+                or 'content="pages"' in sql
+                or "content=pages" in sql
+            )
+            if columns == ["text"] and uses_external_content:
+                return
+
+            logger.info("Migrando indice FTS5 a modo external content")
+            conn.execute("DROP TABLE pages_fts")
+
+        try:
+            conn.execute(
+                """
+                CREATE VIRTUAL TABLE pages_fts USING fts5(
+                    text,
+                    content='pages',
+                    content_rowid='id',
+                    tokenize = 'unicode61 remove_diacritics 2'
+                );
+                """
+            )
+        except sqlite3.OperationalError as exc:
+            raise RuntimeError(
+                "La instalacion de SQLite de este Python no tiene FTS5 habilitado."
+            ) from exc
+
+        conn.execute(
+            """
+            INSERT INTO pages_fts (rowid, text)
+            SELECT id, COALESCE(text, '')
+            FROM pages
+            """
+        )
 
     def _ensure_manual_columns(self, conn: sqlite3.Connection) -> None:
         existing_columns = {
@@ -170,10 +210,10 @@ class Database:
             page_id = int(cursor.lastrowid)
             conn.execute(
                 """
-                INSERT INTO pages_fts (rowid, page_id, text)
-                VALUES (?, ?, ?)
+                INSERT INTO pages_fts (rowid, text)
+                VALUES (?, ?)
                 """,
-                (page_id, page_id, text),
+                (page_id, text),
             )
 
     def replace_pages(self, manual_id: int, pages: Iterable[PageText]) -> None:
@@ -263,10 +303,10 @@ class Database:
                     m.language AS language,
                     m.notes AS notes,
                     m.source_type AS source_type,
-                    snippet(pages_fts, 1, '[[H]]', '[[/H]]', '...', 28) AS snippet,
+                    snippet(pages_fts, 0, '[[H]]', '[[/H]]', '...', 28) AS snippet,
                     bm25(pages_fts) AS rank
                 FROM pages_fts
-                JOIN pages p ON p.id = pages_fts.page_id
+                JOIN pages p ON p.id = pages_fts.rowid
                 JOIN manuals m ON m.id = p.manual_id
                 WHERE pages_fts MATCH ?
                 ORDER BY rank ASC
@@ -276,6 +316,13 @@ class Database:
             ).fetchall()
 
         return [self._row_to_search_result(row) for row in rows]
+
+    def optimize_search_index(self) -> None:
+        with self.connect() as conn:
+            conn.execute("INSERT INTO pages_fts(pages_fts) VALUES('optimize')")
+            conn.execute("PRAGMA optimize")
+            conn.commit()
+        logger.info("Indice FTS5 optimizado")
 
     @staticmethod
     def _row_to_manual(row: sqlite3.Row) -> Manual:

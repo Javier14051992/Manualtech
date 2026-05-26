@@ -8,7 +8,7 @@ from .models import SearchResult
 
 
 logger = logging.getLogger(__name__)
-TOKEN_RE = re.compile(r"[\wÀ-ÖØ-öø-ÿ]+", re.UNICODE)
+TOKEN_RE = re.compile(r"\w+", re.UNICODE)
 
 
 class SearchEngine:

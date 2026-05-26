@@ -15,8 +15,9 @@ logger = logging.getLogger(__name__)
 
 
 class PDFViewerService:
-    def __init__(self, previews_dir: Path) -> None:
+    def __init__(self, previews_dir: Path, max_cached_previews: int = 800) -> None:
         self.previews_dir = Path(previews_dir)
+        self.max_cached_previews = max_cached_previews
         self.previews_dir.mkdir(parents=True, exist_ok=True)
 
     def get_preview_path(
@@ -51,6 +52,7 @@ class PDFViewerService:
             document.close()
 
         logger.info("Preview renderizada: %s", preview_path)
+        self._enforce_cache_limit()
         return preview_path
 
     def open_pdf(self, stored_path: str | Path, page_number: int | None = None) -> bool:
@@ -182,3 +184,19 @@ class PDFViewerService:
                 preview.unlink(missing_ok=True)
             except OSError:
                 logger.exception("No se pudo eliminar preview: %s", preview)
+
+    def _enforce_cache_limit(self) -> None:
+        if self.max_cached_previews <= 0:
+            return
+
+        previews = list(self.previews_dir.glob("manual_*_page_*.png"))
+        overflow = len(previews) - self.max_cached_previews
+        if overflow <= 0:
+            return
+
+        previews.sort(key=lambda path: path.stat().st_mtime)
+        for preview in previews[:overflow]:
+            try:
+                preview.unlink(missing_ok=True)
+            except OSError:
+                logger.exception("No se pudo limpiar preview antigua: %s", preview)

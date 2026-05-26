@@ -533,6 +533,14 @@ class MainWindow(QMainWindow):
         manuals = self.database.list_manuals()
         self.library_button.setText(f"Modificar biblioteca ({len(manuals)})")
 
+    @staticmethod
+    def _track_page_stats(pages, stats: dict[str, int]):
+        for page in pages:
+            stats["pages"] += 1
+            if page.text.strip():
+                stats["text_pages"] += 1
+            yield page
+
     def _add_pdf(self) -> None:
         selected_file, _ = QFileDialog.getOpenFileName(
             self,
@@ -577,10 +585,14 @@ class MainWindow(QMainWindow):
                 if not use_ocr
                 else "Extrayendo texto y aplicando OCR local si hace falta..."
             )
-            pages = self.pdf_processor.extract_pages(
-                stored_path,
-                use_ocr=use_ocr,
-                progress_callback=self._extraction_progress,
+            stats = {"pages": 0, "text_pages": 0}
+            pages = self._track_page_stats(
+                self.pdf_processor.iter_pages(
+                    stored_path,
+                    use_ocr=use_ocr,
+                    progress_callback=self._extraction_progress,
+                ),
+                stats,
             )
             manual_id = self.database.add_manual(
                 metadata=metadata,
@@ -590,7 +602,7 @@ class MainWindow(QMainWindow):
                 pages=pages,
             )
 
-            if pages:
+            if stats["pages"]:
                 try:
                     self.pdf_viewer.get_preview_path(stored_path, manual_id, 1)
                 except Exception:
@@ -599,7 +611,7 @@ class MainWindow(QMainWindow):
             self._load_manuals()
             self._select_manual_in_list(manual_id)
 
-            if not any(page.text.strip() for page in pages):
+            if not stats["text_pages"]:
                 extra = (
                     "\n\nOCR local no esta disponible ahora mismo. Instala Tesseract "
                     "OCR y despues usa Reindexar con 'OCR local' activado."
@@ -692,10 +704,14 @@ class MainWindow(QMainWindow):
             self.statusBar().showMessage(
                 "Aplicando OCR local a la carpeta convertida a PDF..."
             )
-            pages = self.pdf_processor.extract_pages(
-                stored_path,
-                use_ocr=True,
-                progress_callback=self._extraction_progress,
+            stats = {"pages": 0, "text_pages": 0}
+            pages = self._track_page_stats(
+                self.pdf_processor.iter_pages(
+                    stored_path,
+                    use_ocr=True,
+                    progress_callback=self._extraction_progress,
+                ),
+                stats,
             )
             manual_id = self.database.add_manual(
                 metadata=metadata,
@@ -705,7 +721,7 @@ class MainWindow(QMainWindow):
                 pages=pages,
             )
 
-            if pages:
+            if stats["pages"]:
                 try:
                     self.pdf_viewer.get_preview_path(stored_path, manual_id, 1)
                 except Exception:
@@ -714,7 +730,7 @@ class MainWindow(QMainWindow):
             self._load_manuals()
             self._select_manual_in_list(manual_id)
 
-            if not any(page.text.strip() for page in pages):
+            if not stats["text_pages"]:
                 extra = (
                     "\n\nInstala Tesseract OCR o revisa data/tessdata para poder "
                     "indexar imagenes escaneadas."
@@ -885,10 +901,13 @@ class MainWindow(QMainWindow):
         try:
             for manual in manuals:
                 try:
-                    pages = self.pdf_processor.extract_pages(
-                        manual.stored_path,
-                        use_ocr=self.ocr_checkbox.isChecked(),
-                        progress_callback=self._extraction_progress,
+                    pages = self._track_page_stats(
+                        self.pdf_processor.iter_pages(
+                            manual.stored_path,
+                            use_ocr=self.ocr_checkbox.isChecked(),
+                            progress_callback=self._extraction_progress,
+                        ),
+                        {"pages": 0, "text_pages": 0},
                     )
                     self.database.replace_pages(manual.id, pages)
                     self.pdf_viewer.clear_previews_for_manual(manual.id)
@@ -896,6 +915,8 @@ class MainWindow(QMainWindow):
                 except Exception:
                     failures += 1
                     logger.exception("No se pudo reindexar manual id=%s", manual.id)
+            if processed:
+                self.database.optimize_search_index()
         finally:
             self._set_busy(False, "Listo")
 
