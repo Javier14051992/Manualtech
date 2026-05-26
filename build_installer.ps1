@@ -41,7 +41,7 @@ Write-Host "Creando instalador..."
 
 $InstallerPath = Join-Path $ProjectRoot "installer_output\Manualtech_${Version}_Setup.exe"
 $ReleaseDir = Join-Path $ProjectRoot "release"
-$ZipPath = Join-Path $ReleaseDir "Manualtech_${Version}_Beta_MSL.zip"
+$ZipPath = Join-Path $ReleaseDir "manualtech-1.0.zip"
 
 if (-not (Test-Path $InstallerPath)) {
     throw "No se encontró el instalador esperado: $InstallerPath"
@@ -98,4 +98,4 @@ Write-Host "Build finalizado correctamente."
 Write-Host "EXE: $ProjectRoot\dist\Manualtech.exe"
 Write-Host "Instalador: $InstallerPath"
 Write-Host "ZIP comercial: $ZipPath"
-Write-Host "Revisa release\Manualtech_${Version}_Beta_MSL.zip antes de distribuir."
+Write-Host "Revisa release\manualtech-1.0.zip antes de distribuir."

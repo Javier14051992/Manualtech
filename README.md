@@ -285,7 +285,7 @@ python generar_serial.py --cantidad 10
 3. Revisar el ZIP final:
 
 ```text
-release/Manualtech_1.0.0_Beta_MSL.zip
+release/manualtech-1.0.zip
 ```
 
 4. Probar en Windows limpio siguiendo:
@@ -345,7 +345,7 @@ Salidas esperadas:
 
 ```text
 installer_output/Manualtech_1.0.0_Setup.exe
-release/Manualtech_1.0.0_Beta_MSL.zip
+release/manualtech-1.0.zip
 ```
 
 El ZIP final incluye:
