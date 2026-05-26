@@ -2,15 +2,25 @@
 
 ![Logo de Manualtech](assets/manualtech_logo.png)
 
-Manualtech es una aplicacion local de escritorio para Windows pensada para guardar, clasificar, indexar y buscar manuales de taller sin usar servidores, nube, APIs externas ni servicios de pago.
+Manualtech es una aplicacion local de escritorio para Windows, propiedad de
+MSL MotorSuiteLab, pensada para guardar, clasificar, indexar y buscar manuales
+de taller sin usar servidores, nube ni servicios de pago.
 
 El objetivo es sencillo: anadir PDFs o carpetas de imagenes de manuales, extraer texto pagina por pagina, indexarlo en SQLite FTS5 y encontrar rapidamente una averia, pieza, procedimiento, codigo o sistema dentro de toda la biblioteca local.
 
-## Estado del proyecto
+## Estado comercial
 
-Version inicial de pruebas. Ya permite instalarse y usarse en Windows, pero todavia debe revisarse bien antes de distribuirse a usuarios finales.
+Manualtech 1.0.0 esta preparado como release candidate comercial, pero no debe
+venderse como producto final hasta completar `COMMERCIAL_RELEASE_CHECKLIST.md`.
 
-Este repositorio publico se publica como codigo fuente visible para revision y pruebas. Manualtech sigue siendo software propietario: no se permite copiar, revender, redistribuir, republicar ni crear versiones derivadas sin permiso escrito del titular. Consulta `LICENSE.txt`.
+Manualtech es software propietario de MSL MotorSuiteLab. La venta y
+distribucion autorizada debe realizarse exclusivamente a traves de:
+
+https://motorsuitelab.com
+
+Aunque el codigo este visible en un repositorio, no se concede permiso para
+copiar, revender, redistribuir, republicar ni crear versiones derivadas sin
+autorizacion escrita de MSL MotorSuiteLab. Consulta `LICENSE.txt` y `EULA.txt`.
 
 ## Funciones principales
 
@@ -54,6 +64,11 @@ BuscadorManualesTaller/
 |-- requirements.txt
 |-- README.md
 |-- LICENSE.txt
+|-- EULA.txt
+|-- TERMS_OF_SALE.md
+|-- PRIVACY_POLICY.md
+|-- REFUND_POLICY.md
+|-- COMMERCIAL_RELEASE_CHECKLIST.md
 |-- THIRD_PARTY_NOTICES.md
 |-- Manualtech.spec
 |-- build_installer.ps1
@@ -227,24 +242,38 @@ En modo instalado, los datos del usuario se guardan fuera de la carpeta del prog
 
 Esto evita mezclar el ejecutable con la biblioteca personal del usuario.
 
-## Crear un ZIP de pruebas
+## Crear un ZIP comercial
 
-Cuando ya exista el instalador, puedes empaquetarlo para enviarlo a otra persona:
+Cuando ya exista el instalador, el script `build_installer.ps1` crea tambien un
+ZIP comercial en `release/`.
+
+Tambien puedes generarlo manualmente:
 
 ```powershell
-Compress-Archive -Path .\installer_output\Manualtech_Setup.exe, .\LICENSE.txt, .\THIRD_PARTY_NOTICES.md -DestinationPath .\release\Manualtech_Pruebas.zip -Force
+Compress-Archive -Path .\installer_output\Manualtech_1.0.0_Setup.exe, .\LICENSE.txt, .\EULA.txt, .\THIRD_PARTY_NOTICES.md, .\TERMS_OF_SALE.md, .\PRIVACY_POLICY.md, .\REFUND_POLICY.md -DestinationPath .\release\Manualtech_1.0.0_MSL.zip -Force
 ```
 
-El ZIP debe incluir el instalador, no los PDFs privados ni la base de datos local.
+El ZIP debe incluir el instalador y documentos legales, no los PDFs privados ni
+la base de datos local.
 
 ## Licencia
 
-Manualtech es software propietario. El codigo y los recursos propios se publican para revision y pruebas, pero no se concede permiso para redistribuir el programa ni crear versiones derivadas sin autorizacion escrita.
+Manualtech es software propietario de MSL MotorSuiteLab. Su distribucion
+comercial autorizada se realiza exclusivamente desde `motorsuitelab.com`.
+
+El codigo y los recursos propios pueden estar visibles para revision, pero no se
+concede permiso para redistribuir el programa ni crear versiones derivadas sin
+autorizacion escrita.
 
 Consulta:
 
 - `LICENSE.txt`
+- `EULA.txt`
+- `TERMS_OF_SALE.md`
+- `PRIVACY_POLICY.md`
+- `REFUND_POLICY.md`
 - `THIRD_PARTY_NOTICES.md`
+- `COMMERCIAL_RELEASE_CHECKLIST.md`
 
 ## Aviso sobre dependencias
 

@@ -2,9 +2,16 @@
 
 Manualtech utiliza componentes de terceros. Cada componente conserva su propia licencia.
 
+Antes de vender o distribuir Manualtech comercialmente, MSL MotorSuiteLab debe
+confirmar que el modelo de licencia elegido cumple con las obligaciones de cada
+componente.
+
 ## PySide6 / Qt for Python
 
 PySide6 forma parte de Qt for Python y esta disponible bajo licencias open source LGPL/GPL o licencia comercial de Qt.
+
+Para una distribucion propietaria cerrada, revisar si se usara licencia
+comercial de Qt o si se cumpliran estrictamente las obligaciones LGPL/GPL.
 
 Mas informacion:
 
@@ -15,6 +22,9 @@ Mas informacion:
 
 PyMuPDF esta disponible bajo AGPL o mediante licencia comercial. Para distribuir Manualtech como software propietario cerrado, revisa la licencia comercial de PyMuPDF/MuPDF o sustituye esta dependencia por una alternativa compatible.
 
+Este es un requisito bloqueante antes de vender Manualtech como producto
+propietario cerrado.
+
 Mas informacion:
 
 - https://pymupdf.io/
@@ -23,6 +33,9 @@ Mas informacion:
 ## Tesseract OCR
 
 Tesseract OCR se distribuye bajo Apache License 2.0.
+
+Los archivos de idioma OCR incluidos en `data/tessdata/` tambien deben
+mantener sus avisos y condiciones de redistribucion correspondientes.
 
 Mas informacion:
 
@@ -36,3 +49,14 @@ SQLite esta incluido normalmente con Python y su motor es de dominio publico.
 Mas informacion:
 
 - https://www.sqlite.org/copyright.html
+
+## Inno Setup
+
+Inno Setup se utiliza para generar el instalador de Windows. Antes de publicar
+un instalador comercial, MSL MotorSuiteLab debe validar las condiciones de uso
+comercial vigentes de Inno Setup.
+
+Mas informacion:
+
+- https://jrsoftware.org/isinfo.php
+- https://jrsoftware.org/ishelp/topic_purchase.htm
