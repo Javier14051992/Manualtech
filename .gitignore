@@ -14,6 +14,7 @@ logs/
 *.log
 
 # Manualtech user data
+license.json
 data/manuales/**
 data/previews/**
 data/manuales.db

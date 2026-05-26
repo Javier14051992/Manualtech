@@ -30,9 +30,9 @@ class PDFViewerService:
     ) -> Path:
         pdf_path = Path(stored_path)
         if not pdf_path.exists():
-            raise FileNotFoundError(f"No se encontro el PDF: {pdf_path}")
+            raise FileNotFoundError(f"No se encontró el PDF: {pdf_path}")
         if page_number < 1:
-            raise ValueError("El numero de pagina debe ser 1 o superior.")
+            raise ValueError("El número de página debe ser 1 o superior.")
 
         preview_path = self.previews_dir / f"manual_{manual_id}_page_{page_number}.png"
         if preview_path.exists() and not force:
@@ -42,7 +42,7 @@ class PDFViewerService:
         try:
             if page_number > document.page_count:
                 raise ValueError(
-                    f"El PDF solo tiene {document.page_count} paginas."
+                    f"El PDF solo tiene {document.page_count} páginas."
                 )
             page = document.load_page(page_number - 1)
             matrix = fitz.Matrix(zoom, zoom)
@@ -58,7 +58,7 @@ class PDFViewerService:
     def open_pdf(self, stored_path: str | Path, page_number: int | None = None) -> bool:
         pdf_path = Path(stored_path)
         if not pdf_path.exists():
-            raise FileNotFoundError(f"No se encontro el PDF: {pdf_path}")
+            raise FileNotFoundError(f"No se encontró el PDF: {pdf_path}")
 
         if page_number is not None and page_number < 1:
             page_number = 1
@@ -82,7 +82,7 @@ class PDFViewerService:
                     close_fds=True,
                 )
                 logger.info(
-                    "PDF abierto en pagina %s con: %s",
+                    "PDF abierto en página %s con: %s",
                     page_number,
                     command[0],
                 )

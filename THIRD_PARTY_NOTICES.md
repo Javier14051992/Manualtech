@@ -8,9 +8,9 @@ componente.
 
 ## PySide6 / Qt for Python
 
-PySide6 forma parte de Qt for Python y esta disponible bajo licencias open source LGPL/GPL o licencia comercial de Qt.
+PySide6 forma parte de Qt for Python y está disponible bajo licencias open source LGPL/GPL o licencia comercial de Qt.
 
-Para una distribucion propietaria cerrada, revisar si se usara licencia
+Para una distribución propietaria cerrada, revisar si se usará licencia
 comercial de Qt o si se cumpliran estrictamente las obligaciones LGPL/GPL.
 
 Mas informacion:
@@ -20,7 +20,7 @@ Mas informacion:
 
 ## PyMuPDF / MuPDF
 
-PyMuPDF esta disponible bajo AGPL o mediante licencia comercial. Para distribuir Manualtech como software propietario cerrado, revisa la licencia comercial de PyMuPDF/MuPDF o sustituye esta dependencia por una alternativa compatible.
+PyMuPDF está disponible bajo AGPL o mediante licencia comercial. Para distribuir Manualtech como software propietario cerrado, revisa la licencia comercial de PyMuPDF/MuPDF o sustituye esta dependencia por una alternativa compatible.
 
 Este es un requisito bloqueante antes de vender Manualtech como producto
 propietario cerrado.
@@ -34,8 +34,8 @@ Mas informacion:
 
 Tesseract OCR se distribuye bajo Apache License 2.0.
 
-Los archivos de idioma OCR incluidos en `data/tessdata/` tambien deben
-mantener sus avisos y condiciones de redistribucion correspondientes.
+Los archivos de idioma OCR incluidos en `data/tessdata/` también deben
+mantener sus avisos y condiciones de redistribución correspondientes.
 
 Mas informacion:
 
@@ -44,7 +44,7 @@ Mas informacion:
 
 ## SQLite
 
-SQLite esta incluido normalmente con Python y su motor es de dominio publico.
+SQLite está incluido normalmente con Python y su motor es de dominio público.
 
 Mas informacion:
 

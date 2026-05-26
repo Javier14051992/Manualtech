@@ -1,8 +1,8 @@
 ACUERDO DE LICENCIA DE USUARIO FINAL DE MANUALTECH
 
-Ultima actualizacion: 26 de mayo de 2026
+Última actualización: 26 de mayo de 2026
 
-Este Acuerdo de Licencia de Usuario Final ("EULA") regula la instalacion y uso
+Este Acuerdo de Licencia de Usuario Final ("EULA") regula la instalación y uso
 de Manualtech, software propietario de MSL MotorSuiteLab.
 
 Al instalar o usar Manualtech, el usuario acepta este EULA. Si no acepta sus
@@ -10,12 +10,12 @@ condiciones, no debe instalar ni utilizar el programa.
 
 1. TITULARIDAD
 
-Manualtech, su nombre, logotipo, codigo, instalador, interfaz y documentacion
+Manualtech, su nombre, logotipo, código, instalador, interfaz y documentación
 son propiedad de MSL MotorSuiteLab o de sus respectivos titulares.
 
 2. CANAL OFICIAL DE VENTA
 
-La venta y distribucion autorizada de Manualtech se realiza exclusivamente a
+La venta y distribución autorizada de Manualtech se realiza exclusivamente a
 traves de:
 
 https://motorsuitelab.com
@@ -31,7 +31,7 @@ equipos autorizados por su compra o acuerdo comercial.
 4. RESTRICCIONES
 
 El usuario no puede copiar, revender, redistribuir, publicar, alquilar,
-sublicenciar, modificar, descompilar, desensamblar, hacer ingenieria inversa,
+sublicenciar, modificar, descompilar, desensamblar, hacer ingeniería inversa,
 eliminar avisos legales o crear productos derivados de Manualtech sin permiso
 previo y por escrito de MSL MotorSuiteLab.
 
@@ -43,7 +43,7 @@ de sus copias de seguridad.
 
 6. FUNCIONAMIENTO LOCAL
 
-Manualtech esta disenado para funcionar localmente. No necesita servidor ni
+Manualtech está diseñado para funcionar localmente. No necesita servidor ni
 cuenta de usuario para sus funciones principales.
 
 7. COMPONENTES DE TERCEROS
@@ -54,13 +54,13 @@ licencias. Consulta THIRD_PARTY_NOTICES.md.
 8. LIMITACION DE RESPONSABILIDAD
 
 En la maxima medida permitida por la ley aplicable, MSL MotorSuiteLab no sera
-responsable de perdidas de datos, danos indirectos, lucro cesante, interrupcion
+responsable de pérdidas de datos, daños indirectos, lucro cesante, interrupción
 de actividad o problemas derivados del uso incorrecto del software.
 
 9. TERMINACION
 
-MSL MotorSuiteLab podra resolver la licencia si el usuario incumple este EULA.
-En ese caso, el usuario debera dejar de utilizar Manualtech y eliminar las
+MSL MotorSuiteLab podrá resolver la licencia si el usuario incumple este EULA.
+En ese caso, el usuario deberá dejar de utilizar Manualtech y eliminar las
 copias no autorizadas.
 
 10. CONTACTO

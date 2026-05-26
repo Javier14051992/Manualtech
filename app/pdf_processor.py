@@ -69,7 +69,7 @@ class PDFProcessor:
     def list_image_files(self, folder_path: Path) -> list[Path]:
         folder = Path(folder_path)
         if not folder.exists() or not folder.is_dir():
-            raise PDFProcessingError("La carpeta de imagenes seleccionada no existe.")
+            raise PDFProcessingError("La carpeta de imágenes seleccionada no existe.")
 
         images = [
             path
@@ -87,7 +87,7 @@ class PDFProcessor:
     ) -> Path:
         if not image_paths:
             raise PDFProcessingError(
-                "La carpeta no contiene imagenes compatibles: JPG, PNG, BMP, TIFF o WEBP."
+                "La carpeta no contiene imágenes compatibles: JPG, PNG, BMP, TIFF o WEBP."
             )
 
         output = Path(output_path)
@@ -115,7 +115,7 @@ class PDFProcessor:
         finally:
             document.close()
 
-        logger.info("PDF creado desde carpeta de imagenes: %s", output)
+        logger.info("PDF creado desde carpeta de imágenes: %s", output)
         return output
 
     def extract_pages(
@@ -146,7 +146,7 @@ class PDFProcessor:
     ) -> Iterator[PageText]:
         path = Path(pdf_path)
         if not path.exists():
-            raise PDFProcessingError("No se encontro el PDF para extraer texto.")
+            raise PDFProcessingError("No se encontró el PDF para extraer texto.")
 
         try:
             document = fitz.open(path)
@@ -156,7 +156,7 @@ class PDFProcessor:
         try:
             if document.is_encrypted and document.needs_pass:
                 raise PDFProcessingError(
-                    "El PDF esta protegido con contrasena y no se puede indexar."
+                    "El PDF está protegido con contraseña y no se puede indexar."
                 )
 
             tessdata = self.find_tessdata() if use_ocr else None
@@ -164,7 +164,7 @@ class PDFProcessor:
             resolved_language = self.resolve_ocr_language(tessdata, ocr_language)
             if use_ocr and not ocr_available:
                 logger.warning(
-                    "OCR solicitado, pero Tesseract no esta disponible en el sistema."
+                    "OCR solicitado, pero Tesseract no está disponible en el sistema."
                 )
 
             for index in range(document.page_count):
@@ -180,7 +180,7 @@ class PDFProcessor:
                             tessdata=tessdata,
                         )
                 except Exception:
-                    logger.exception("No se pudo extraer texto de la pagina %s", index + 1)
+                    logger.exception("No se pudo extraer texto de la página %s", index + 1)
                 yield PageText(page_number=index + 1, text=self._clean_text(text))
                 if progress_callback:
                     progress_callback(index + 1, document.page_count)
@@ -239,7 +239,7 @@ class PDFProcessor:
             return f"OCR local disponible: {tessdata}"
         return (
             "OCR local no disponible. Instala Tesseract OCR para indexar PDFs "
-            "escaneados o formados solo por imagenes."
+            "escaneados o formados solo por imágenes."
         )
 
     def _extract_text_with_ocr(
@@ -259,7 +259,7 @@ class PDFProcessor:
             return text_page.extractText() or ""
         except Exception as exc:
             logger.warning(
-                "OCR con idioma '%s' fallo en pagina %s: %s",
+                "OCR con idioma '%s' falló en página %s: %s",
                 language,
                 page.number + 1,
                 exc,

@@ -1,24 +1,24 @@
 LICENCIA PROPIETARIA DE MANUALTECH
 
-Ultima actualizacion: 26 de mayo de 2026
+Última actualización: 26 de mayo de 2026
 
 Copyright (c) 2026 MSL MotorSuiteLab. Todos los derechos reservados.
 
 Manualtech es software propietario de MSL MotorSuiteLab. El nombre Manualtech,
-su logotipo, codigo, interfaz, documentacion, instalador, recursos graficos y
+su logotipo, código, interfaz, documentación, instalador, recursos gráficos y
 archivos asociados pertenecen a MSL MotorSuiteLab o a sus respectivos titulares.
 
 DISTRIBUCION OFICIAL
 
-La unica distribucion comercial autorizada de Manualtech es la realizada por
+La única distribución comercial autorizada de Manualtech es la realizada por
 MSL MotorSuiteLab a traves de:
 
 https://motorsuitelab.com
 
-Queda prohibida cualquier copia, reventa, redistribucion, publicacion,
-subida a internet, subida a repositorios, inclusion en paquetes de terceros,
-cesion, alquiler, sublicencia o entrega de Manualtech por cualquier otro canal
-sin autorizacion previa y por escrito de MSL MotorSuiteLab.
+Queda prohibida cualquier copia, reventa, redistribución, publicación,
+subida a internet, subida a repositorios, inclusión en paquetes de terceros,
+cesión, alquiler, sublicencia o entrega de Manualtech por cualquier otro canal
+sin autorización previa y por escrito de MSL MotorSuiteLab.
 
 LICENCIA DE USO
 
@@ -32,19 +32,19 @@ recibe un derecho de uso limitado.
 
 PROHIBICIONES
 
-Salvo autorizacion previa y por escrito de MSL MotorSuiteLab, queda prohibido:
+Salvo autorización previa y por escrito de MSL MotorSuiteLab, queda prohibido:
 
 1. Copiar, distribuir, vender, alquilar, prestar, sublicenciar o publicar
    Manualtech.
 2. Poner Manualtech a disposicion de terceros fuera de la compra autorizada.
 3. Subir Manualtech a servicios cloud, plataformas de descarga, redes sociales,
    repositorios publicos o privados, foros o cualquier otro medio de
-   distribucion.
+   distribución.
 4. Modificar, adaptar, traducir, descompilar, desensamblar o realizar
    ingenieria inversa sobre el ejecutable, instalador o componentes binarios.
 5. Eliminar o alterar avisos de copyright, marca, logotipo, licencia,
    identificacion de MSL MotorSuiteLab o avisos de componentes de terceros.
-6. Usar Manualtech para crear productos derivados destinados a distribucion
+6. Usar Manualtech para crear productos derivados destinados a distribución
    publica o comercial.
 7. Revender Manualtech como producto propio o integrarlo en otro producto,
    servicio o paquete comercial sin contrato escrito.
@@ -52,7 +52,7 @@ Salvo autorizacion previa y por escrito de MSL MotorSuiteLab, queda prohibido:
 DATOS DEL USUARIO
 
 El usuario conserva la propiedad de sus propios documentos, manuales,
-imagenes, bases de datos, notas y archivos importados en Manualtech.
+imágenes, bases de datos, notas y archivos importados en Manualtech.
 
 Manualtech trabaja localmente en el equipo del usuario. MSL MotorSuiteLab no
 recibe automaticamente los documentos importados por el usuario.
@@ -77,6 +77,6 @@ manuales, bases de datos y archivos importados.
 
 ACEPTACION
 
-La instalacion o uso de Manualtech implica la aceptacion de esta licencia y de
+La instalación o uso de Manualtech implica la aceptación de esta licencia y de
 la EULA incluida con el instalador. Si el usuario no acepta estos terminos, no
 debe instalar ni utilizar el programa.

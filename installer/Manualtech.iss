@@ -46,6 +46,7 @@ Source: "..\THIRD_PARTY_NOTICES.md"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\TERMS_OF_SALE.md"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\PRIVACY_POLICY.md"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\REFUND_POLICY.md"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\README.md"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
 Name: "{group}\Manualtech"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\{#MyAppExeName}"

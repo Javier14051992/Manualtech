@@ -1,8 +1,8 @@
 # Politica de privacidad de Manualtech
 
-Ultima actualizacion: 26 de mayo de 2026
+Última actualización: 26 de mayo de 2026
 
-Esta politica es una base informativa para Manualtech. Debe revisarse con un
+Esta política es una base informativa para Manualtech. Debe revisarse con un
 profesional legal antes de publicar la venta final.
 
 ## Funcionamiento local
@@ -10,15 +10,15 @@ profesional legal antes de publicar la venta final.
 Manualtech funciona localmente en el equipo del usuario. Sus funciones
 principales no requieren cuenta, servidor ni subida de documentos.
 
-## Datos tratados por la aplicacion
+## Datos tratados por la aplicación
 
 Manualtech puede guardar localmente:
 
 - PDFs importados por el usuario.
-- PDFs creados desde carpetas de imagenes.
+- PDFs creados desde carpetas de imágenes.
 - Texto extraido de los documentos.
 - Base de datos SQLite local.
-- Previews de paginas.
+- Previews de páginas.
 - Metadatos introducidos por el usuario.
 - Logs tecnicos de funcionamiento.
 
@@ -37,7 +37,7 @@ En modo desarrollo, los datos se guardan dentro de la carpeta del proyecto.
 Manualtech no sube automaticamente los manuales del usuario a MSL MotorSuiteLab.
 
 Si en el futuro se incorporan funciones online, activacion, telemetria,
-actualizaciones automaticas o soporte remoto, esta politica debera actualizarse
+actualizaciones automáticas o soporte remoto, esta política deberá actualizarse
 antes de activar esas funciones.
 
 ## Responsabilidad del usuario

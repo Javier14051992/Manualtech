@@ -19,7 +19,7 @@ class SearchEngine:
         fts_query = self.build_fts_query(query)
         if not fts_query:
             return []
-        logger.info("Busqueda FTS: %s", fts_query)
+        logger.info("Búsqueda FTS: %s", fts_query)
         return self.database.search_pages(fts_query, limit=limit)
 
     @staticmethod

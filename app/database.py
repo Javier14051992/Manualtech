@@ -118,7 +118,7 @@ class Database:
             )
         except sqlite3.OperationalError as exc:
             raise RuntimeError(
-                "La instalacion de SQLite de este Python no tiene FTS5 habilitado."
+                "La instalación de SQLite de este Python no tiene FTS5 habilitado."
             ) from exc
 
         conn.execute(
@@ -141,7 +141,7 @@ class Database:
         for column, statement in migrations.items():
             if column not in existing_columns:
                 conn.execute(statement)
-                logger.info("Columna de manuales anadida: %s", column)
+                logger.info("Columna de manuales añadida: %s", column)
 
     def add_manual(
         self,
@@ -189,7 +189,7 @@ class Database:
             self._insert_pages(conn, manual_id, pages)
             conn.commit()
 
-        logger.info("Manual anadido: %s", stored_path.name)
+        logger.info("Manual añadido: %s", stored_path.name)
         return manual_id
 
     def _insert_pages(

@@ -1,6 +1,6 @@
 # Terminos de venta de Manualtech
 
-Ultima actualizacion: 26 de mayo de 2026
+Última actualización: 26 de mayo de 2026
 
 Estos terminos son una base comercial para Manualtech. Deben revisarse con un
 profesional legal antes de publicar la venta final.
@@ -28,7 +28,7 @@ software. El uso queda sujeto a `LICENSE.txt` y `EULA.txt`.
 
 ## Soporte
 
-El soporte se prestara segun las condiciones indicadas en la pagina de venta o
+El soporte se prestará según las condiciones indicadas en la página de venta o
 en la comunicacion comercial de MSL MotorSuiteLab.
 
 ## Requisitos
@@ -39,7 +39,7 @@ OCR pueden tardar mas en equipos con pocos recursos.
 ## Restricciones
 
 No se permite copiar, revender, compartir, publicar, subir a internet ni
-redistribuir Manualtech sin autorizacion escrita de MSL MotorSuiteLab.
+redistribuir Manualtech sin autorización escrita de MSL MotorSuiteLab.
 
 ## Facturacion e impuestos
 

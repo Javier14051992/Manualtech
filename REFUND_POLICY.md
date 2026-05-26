@@ -1,8 +1,8 @@
 # Politica de reembolsos de Manualtech
 
-Ultima actualizacion: 26 de mayo de 2026
+Última actualización: 26 de mayo de 2026
 
-Esta politica es una base comercial para Manualtech. Debe revisarse con un
+Esta política es una base comercial para Manualtech. Debe revisarse con un
 profesional legal antes de publicar la venta final.
 
 ## Producto digital
@@ -12,7 +12,7 @@ Manualtech se entrega como producto digital descargable.
 ## Reembolsos
 
 MSL MotorSuiteLab podra valorar solicitudes de reembolso segun la legislacion
-aplicable, las condiciones publicadas en la pagina de venta y el estado de uso
+aplicable, las condiciones publicadas en la página de venta y el estado de uso
 de la licencia.
 
 ## Antes de comprar

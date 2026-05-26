@@ -34,6 +34,7 @@ from PySide6.QtWidgets import (
 )
 
 from .database import Database
+from .licensing import LicenseStatus
 from .models import Manual, ManualMetadata, SearchResult
 from .paths import resource_path
 from .pdf_processor import PDFProcessingError, PDFProcessor
@@ -48,8 +49,8 @@ class MetadataDialog(QDialog):
     CATEGORIES = [
         "Coche",
         "Moto",
-        "Reparacion general",
-        "Electronica / cuadros / diagnosis",
+        "Reparación general",
+        "Electrónica / cuadros / diagnosis",
         "Herramientas / procedimientos",
         "Ficha propia",
         "Otro",
@@ -97,12 +98,12 @@ class MetadataDialog(QDialog):
         self.system_edit.setPlaceholderText("Ej. Frenos, motor, electricidad")
         self.document_type_edit.setPlaceholderText("Ej. Manual de taller")
 
-        form.addRow("Categoria:", self.category_combo)
-        form.addRow("Titulo:", self.title_edit)
+        form.addRow("Categoría:", self.category_combo)
+        form.addRow("Título:", self.title_edit)
         form.addRow("Tema:", self.topic_edit)
         form.addRow("Marca:", self.brand_edit)
         form.addRow("Modelo:", self.model_edit)
-        form.addRow("Ano:", self.year_edit)
+        form.addRow("Año:", self.year_edit)
         form.addRow("Motor:", self.engine_edit)
         form.addRow("Sistema:", self.system_edit)
         form.addRow("Tipo de documento:", self.document_type_edit)
@@ -114,7 +115,7 @@ class MetadataDialog(QDialog):
         buttons = QDialogButtonBox(
             QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel
         )
-        buttons.button(QDialogButtonBox.StandardButton.Ok).setText("Anadir")
+        buttons.button(QDialogButtonBox.StandardButton.Ok).setText("Añadir")
         buttons.button(QDialogButtonBox.StandardButton.Cancel).setText("Cancelar")
         buttons.accepted.connect(self.accept)
         buttons.rejected.connect(self.reject)
@@ -142,7 +143,7 @@ class MetadataDialog(QDialog):
             self.brand_edit.setPlaceholderText("Ej. Yamaha, Honda, BMW")
             self.model_edit.setPlaceholderText("Ej. MT-07, CBR600RR")
             self.engine_edit.setPlaceholderText("Ej. 689 cc")
-            self.system_edit.setPlaceholderText("Ej. Frenos, motor, transmision")
+            self.system_edit.setPlaceholderText("Ej. Frenos, motor, transmisión")
         elif category == "Coche":
             self.topic_edit.setPlaceholderText("Ej. Manual completo, motor, electricidad")
             self.brand_edit.setPlaceholderText("Ej. Audi, Ford, Toyota")
@@ -154,7 +155,7 @@ class MetadataDialog(QDialog):
             self.brand_edit.setPlaceholderText("Opcional si aplica")
             self.model_edit.setPlaceholderText("Opcional si aplica")
             self.engine_edit.setPlaceholderText("Opcional si aplica")
-            self.system_edit.setPlaceholderText("Ej. Cuadros, airbag, ABS, inyeccion")
+            self.system_edit.setPlaceholderText("Ej. Cuadros, airbag, ABS, inyección")
 
 
 class SearchResultCard(QFrame):
@@ -176,7 +177,7 @@ class SearchResultCard(QFrame):
 
         title = QLabel(
             f"<b>{html.escape(result.display_title)}</b> "
-            f"<span style='color:#667085;'>Pagina {result.page_number}</span>"
+            f"<span style='color:#667085;'>Página {result.page_number}</span>"
         )
         title.setTextFormat(Qt.TextFormat.RichText)
         title.setWordWrap(True)
@@ -196,7 +197,7 @@ class SearchResultCard(QFrame):
 
         button_row = QHBoxLayout()
         button_row.addStretch(1)
-        self.view_button = QPushButton("Ver pagina")
+        self.view_button = QPushButton("Ver página")
         self.open_button = QPushButton("Abrir PDF")
         self.view_button.setObjectName("secondaryButton")
         self.open_button.setObjectName("secondaryButton")
@@ -244,7 +245,7 @@ class LibraryDialog(QDialog):
         self.reindex_callback = reindex_callback
         self.changed_callback = changed_callback
 
-        self.setWindowTitle("Modificar biblioteca")
+        self.setWindowTitle("Gestionar biblioteca")
         self.setMinimumSize(620, 520)
 
         layout = QVBoxLayout(self)
@@ -304,7 +305,7 @@ class LibraryDialog(QDialog):
         if item is None:
             QMessageBox.information(
                 self,
-                "Sin seleccion",
+                "Sin selección",
                 "Selecciona un manual primero.",
             )
             return None
@@ -327,7 +328,7 @@ class LibraryDialog(QDialog):
         reply = QMessageBox.question(
             self,
             "Eliminar manual",
-            f"Eliminar de la biblioteca local?\n\n{manual.display_title}",
+            f"¿Eliminar de la biblioteca local?\n\n{manual.display_title}",
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
             QMessageBox.StandardButton.No,
         )
@@ -363,12 +364,14 @@ class MainWindow(QMainWindow):
         database: Database,
         search_engine: SearchEngine,
         pdf_viewer: PDFViewerService,
+        license_status: LicenseStatus | None = None,
     ) -> None:
         super().__init__()
         self.base_dir = Path(base_dir)
         self.database = database
         self.search_engine = search_engine
         self.pdf_viewer = pdf_viewer
+        self.license_status = license_status or LicenseStatus(active=True)
         self.pdf_processor = PDFProcessor()
         self.result_cards: list[SearchResultCard] = []
 
@@ -432,15 +435,16 @@ class MainWindow(QMainWindow):
         search_row.setSpacing(10)
         self.search_edit = QLineEdit()
         self.search_edit.setPlaceholderText(
-            "Buscar averias, procedimientos, piezas, codigos o sistemas..."
+            "Buscar averías, procedimientos, piezas, códigos o sistemas..."
         )
         self.search_edit.setClearButtonEnabled(True)
         self.search_edit.returnPressed.connect(self._run_search)
 
         self.search_button = QPushButton("Buscar")
-        self.add_pdf_button = QPushButton("Anadir PDF")
-        self.add_folder_button = QPushButton("Anadir carpeta")
-        self.library_button = QPushButton("Modificar biblioteca")
+        self.add_pdf_button = QPushButton("Añadir PDF")
+        self.add_folder_button = QPushButton("Añadir carpeta")
+        self.library_button = QPushButton("Gestionar biblioteca")
+        self.license_button = QPushButton("Estado de licencia")
         self.ocr_checkbox = QCheckBox("OCR local")
         self.ocr_checkbox.setChecked(True)
         self.ocr_checkbox.setToolTip(
@@ -451,12 +455,14 @@ class MainWindow(QMainWindow):
         self.add_pdf_button.clicked.connect(self._add_pdf)
         self.add_folder_button.clicked.connect(self._add_image_folder)
         self.library_button.clicked.connect(self._open_library_dialog)
+        self.license_button.clicked.connect(self._show_license_status)
 
         search_row.addWidget(self.search_edit, 1)
         search_row.addWidget(self.search_button)
         search_row.addWidget(self.add_pdf_button)
         search_row.addWidget(self.add_folder_button)
         search_row.addWidget(self.library_button)
+        search_row.addWidget(self.license_button)
         search_row.addWidget(self.ocr_checkbox)
         top_layout.addLayout(search_row)
         root.addWidget(top_panel)
@@ -477,10 +483,10 @@ class MainWindow(QMainWindow):
         layout.setContentsMargins(16, 16, 16, 16)
         layout.setSpacing(10)
 
-        header = QLabel("Resultados de busqueda")
+        header = QLabel("Resultados de búsqueda")
         header.setObjectName("panelTitle")
         self.results_status = QLabel(
-            "Anade un PDF y busca dentro de la biblioteca local."
+            "Añade tus manuales PDF o una carpeta completa para comenzar a buscar información técnica."
         )
         self.results_status.setObjectName("mutedText")
 
@@ -508,7 +514,7 @@ class MainWindow(QMainWindow):
 
         self.preview_title = QLabel("Vista previa")
         self.preview_title.setObjectName("panelTitle")
-        self.preview_hint = QLabel("Selecciona un resultado para ver la pagina.")
+        self.preview_hint = QLabel("Selecciona un resultado para visualizar la página del manual.")
         self.preview_hint.setObjectName("mutedText")
 
         self.preview_scroll = QScrollArea()
@@ -517,7 +523,7 @@ class MainWindow(QMainWindow):
         self.preview_scroll.setAlignment(
             Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignTop
         )
-        self.preview_label = QLabel("Sin pagina seleccionada.")
+        self.preview_label = QLabel("Sin página seleccionada.")
         self.preview_label.setObjectName("previewLabel")
         self.preview_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.preview_label.setWordWrap(True)
@@ -531,7 +537,7 @@ class MainWindow(QMainWindow):
 
     def _load_manuals(self) -> None:
         manuals = self.database.list_manuals()
-        self.library_button.setText(f"Modificar biblioteca ({len(manuals)})")
+        self.library_button.setText(f"Gestionar biblioteca ({len(manuals)})")
 
     @staticmethod
     def _track_page_stats(pages, stats: dict[str, int]):
@@ -553,7 +559,7 @@ class MainWindow(QMainWindow):
 
         source_path = Path(selected_file)
         if source_path.suffix.lower() != ".pdf":
-            QMessageBox.warning(self, "Archivo no valido", "Selecciona un archivo PDF.")
+            QMessageBox.warning(self, "Archivo no válido", "Selecciona un archivo PDF.")
             return
 
         try:
@@ -562,8 +568,8 @@ class MainWindow(QMainWindow):
             if existing:
                 QMessageBox.information(
                     self,
-                    "PDF ya anadido",
-                    f"Este PDF ya esta en la biblioteca:\n{existing.display_title}",
+                    "PDF ya añadido",
+                    f"Este PDF ya está en la biblioteca:\n{existing.display_title}",
                 )
                 self._select_manual_in_list(existing.id)
                 return
@@ -581,7 +587,7 @@ class MainWindow(QMainWindow):
 
             use_ocr = self.ocr_checkbox.isChecked()
             self.statusBar().showMessage(
-                "Extrayendo texto pagina por pagina..."
+                "Extrayendo texto página por página..."
                 if not use_ocr
                 else "Extrayendo texto y aplicando OCR local si hace falta..."
             )
@@ -613,23 +619,23 @@ class MainWindow(QMainWindow):
 
             if not stats["text_pages"]:
                 extra = (
-                    "\n\nOCR local no esta disponible ahora mismo. Instala Tesseract "
-                    "OCR y despues usa Reindexar con 'OCR local' activado."
+                    "\n\nOCR local no está disponible ahora mismo. Instala Tesseract "
+                    "OCR y después usa Reindexar con 'OCR local' activado."
                     if use_ocr and not self.pdf_processor.is_ocr_available()
                     else ""
                 )
                 QMessageBox.warning(
                     self,
-                    "PDF anadido sin texto",
-                    "El PDF se guardo, pero no se detecto texto indexable. "
+                    "PDF añadido sin texto",
+                    "El PDF se guardó, pero no se detectó texto indexable. "
                     "Puede ser un documento escaneado sin capa de texto."
                     + extra,
                 )
             else:
                 QMessageBox.information(
                     self,
-                    "PDF anadido",
-                    "El manual se copio, se extrajo el texto y quedo indexado.",
+                    "PDF añadido",
+                    "El manual se copió, se extrajo el texto y quedó indexado.",
                 )
         except sqlite3.IntegrityError:
             logger.exception("Intento de duplicar un manual")
@@ -642,7 +648,7 @@ class MainWindow(QMainWindow):
             logger.exception("Error procesando PDF")
             QMessageBox.critical(self, "Error al procesar PDF", str(exc))
         except Exception as exc:
-            logger.exception("Error inesperado al anadir PDF")
+            logger.exception("Error inesperado al añadir PDF")
             QMessageBox.critical(self, "Error inesperado", str(exc))
         finally:
             self._set_busy(False, "Listo")
@@ -650,7 +656,7 @@ class MainWindow(QMainWindow):
     def _add_image_folder(self) -> None:
         selected_folder = QFileDialog.getExistingDirectory(
             self,
-            "Seleccionar carpeta de imagenes",
+            "Seleccionar carpeta de imágenes",
             str(Path.home()),
         )
         if not selected_folder:
@@ -662,7 +668,7 @@ class MainWindow(QMainWindow):
             if not image_paths:
                 QMessageBox.warning(
                     self,
-                    "Carpeta sin imagenes",
+                    "Carpeta sin imágenes",
                     "La carpeta no contiene JPG, PNG, BMP, TIFF o WEBP.",
                 )
                 return
@@ -673,7 +679,7 @@ class MainWindow(QMainWindow):
                 QMessageBox.information(
                     self,
                     "Carpeta ya anadida",
-                    f"Esta carpeta ya esta en la biblioteca:\n{existing.display_title}",
+                    f"Esta carpeta ya está en la biblioteca:\n{existing.display_title}",
                 )
                 self._select_manual_in_list(existing.id)
                 return
@@ -681,7 +687,7 @@ class MainWindow(QMainWindow):
             dialog = MetadataDialog(
                 folder_path,
                 self,
-                default_category="Reparacion general",
+                default_category="Reparación general",
                 source_type="image_folder",
             )
             if dialog.exec() != QDialog.DialogCode.Accepted:
@@ -694,7 +700,7 @@ class MainWindow(QMainWindow):
                 self.database.manuals_dir,
             )
 
-            self._set_busy(True, "Convirtiendo imagenes a PDF local...")
+            self._set_busy(True, "Convirtiendo imágenes a PDF local...")
             self.pdf_processor.create_pdf_from_images(
                 image_paths,
                 stored_path,
@@ -733,34 +739,34 @@ class MainWindow(QMainWindow):
             if not stats["text_pages"]:
                 extra = (
                     "\n\nInstala Tesseract OCR o revisa data/tessdata para poder "
-                    "indexar imagenes escaneadas."
+                    "indexar imágenes escaneadas."
                     if not self.pdf_processor.is_ocr_available()
                     else ""
                 )
                 QMessageBox.warning(
                     self,
                     "PDF creado sin texto",
-                    "La carpeta se convirtio a PDF, pero no se detecto texto buscable."
+                    "La carpeta se convirtió a PDF, pero no se detectó texto buscable."
                     + extra,
                 )
             else:
                 QMessageBox.information(
                     self,
                     "Carpeta anadida",
-                    "Las imagenes se convirtieron a PDF, se aplico OCR y quedaron indexadas.",
+                    "Las imágenes se convirtieron a PDF, se aplicó OCR y quedaron indexadas.",
                 )
         except sqlite3.IntegrityError:
-            logger.exception("Intento de duplicar una carpeta de imagenes")
+            logger.exception("Intento de duplicar una carpeta de imágenes")
             QMessageBox.warning(
                 self,
                 "Carpeta duplicada",
-                "Esta carpeta de imagenes parece estar ya registrada.",
+                "Esta carpeta de imágenes parece estar ya registrada.",
             )
         except PDFProcessingError as exc:
-            logger.exception("Error procesando carpeta de imagenes")
+            logger.exception("Error procesando carpeta de imágenes")
             QMessageBox.critical(self, "Error al procesar carpeta", str(exc))
         except Exception as exc:
-            logger.exception("Error inesperado al anadir carpeta")
+            logger.exception("Error inesperado al añadir carpeta")
             QMessageBox.critical(self, "Error inesperado", str(exc))
         finally:
             self._set_busy(False, "Listo")
@@ -775,21 +781,21 @@ class MainWindow(QMainWindow):
         try:
             results = self.search_engine.search(query, limit=80)
         except sqlite3.OperationalError as exc:
-            logger.exception("Error en busqueda FTS")
+            logger.exception("Error en búsqueda FTS")
             QMessageBox.critical(
                 self,
-                "Error de busqueda",
-                f"No se pudo ejecutar la busqueda:\n{exc}",
+                "Error de búsqueda",
+                f"No se pudo ejecutar la búsqueda:\n{exc}",
             )
             return
         except Exception as exc:
-            logger.exception("Error inesperado en busqueda")
-            QMessageBox.critical(self, "Error de busqueda", str(exc))
+            logger.exception("Error inesperado en búsqueda")
+            QMessageBox.critical(self, "Error de búsqueda", str(exc))
             return
 
         if not results:
             self.results_status.setText("No se encontraron resultados.")
-            self._show_preview_message("No hay pagina para mostrar.")
+            self._show_preview_message("No hay página para mostrar.")
             return
 
         suffix = "resultado" if len(results) == 1 else "resultados"
@@ -821,15 +827,15 @@ class MainWindow(QMainWindow):
                 raise RuntimeError("La imagen de preview no se pudo cargar.")
 
             self.preview_title.setText(
-                f"{result.display_title} - pagina {result.page_number}"
+                f"{result.display_title} - página {result.page_number}"
             )
-            self.preview_hint.setText(result.metadata_summary or "Preview de pagina")
+            self.preview_hint.setText(result.metadata_summary or "Preview de página")
             self.preview_label.setText("")
             self.preview_label.setPixmap(pixmap)
             self.preview_label.resize(pixmap.size())
         except Exception as exc:
             logger.exception("No se pudo mostrar preview")
-            self._show_preview_message(f"No se pudo renderizar la pagina:\n{exc}")
+            self._show_preview_message(f"No se pudo renderizar la página:\n{exc}")
 
     def _preview_manual(self, manual_id: int) -> None:
         manual = self.database.get_manual(manual_id)
@@ -844,8 +850,8 @@ class MainWindow(QMainWindow):
             pixmap = QPixmap(str(preview_path))
             if pixmap.isNull():
                 raise RuntimeError("La preview no se pudo cargar.")
-            self.preview_title.setText(f"{manual.display_title} - pagina 1")
-            self.preview_hint.setText(manual.metadata_summary or "Primera pagina")
+            self.preview_title.setText(f"{manual.display_title} - página 1")
+            self.preview_hint.setText(manual.metadata_summary or "Primera página")
             self.preview_label.setText("")
             self.preview_label.setPixmap(pixmap)
             self.preview_label.resize(pixmap.size())
@@ -870,6 +876,19 @@ class MainWindow(QMainWindow):
         )
         dialog.exec()
 
+    def _show_license_status(self) -> None:
+        QMessageBox.information(
+            self,
+            "Estado de licencia",
+            "\n".join(
+                [
+                    f"Producto: {self.license_status.product}",
+                    f"Estado: {self.license_status.state_label}",
+                    f"Tipo de licencia: {self.license_status.license_type}",
+                ]
+            ),
+        )
+
     def _library_changed(self) -> None:
         self._load_manuals()
         self._clear_results()
@@ -881,14 +900,14 @@ class MainWindow(QMainWindow):
             QMessageBox.information(
                 self,
                 "Sin manuales",
-                "Todavia no hay manuales para reindexar.",
+                "Todavía no hay manuales para reindexar.",
             )
             return
 
         reply = QMessageBox.question(
             self,
             "Reindexar biblioteca",
-            "Se volvera a extraer el texto de todos los PDFs almacenados. Continuar?",
+            "Se volverá a extraer el texto de todos los PDFs almacenados. ¿Continuar?",
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
             QMessageBox.StandardButton.No,
         )
@@ -956,7 +975,7 @@ class MainWindow(QMainWindow):
 
     def _extraction_progress(self, page_number: int, total_pages: int) -> None:
         self.statusBar().showMessage(
-            f"Procesando pagina {page_number} de {total_pages}..."
+            f"Procesando página {page_number} de {total_pages}..."
         )
         QApplication.processEvents()
 
