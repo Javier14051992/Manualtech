@@ -34,7 +34,7 @@ en la comunicacion comercial de MSL MotorSuiteLab.
 ## Requisitos
 
 El usuario debe disponer de un equipo Windows compatible. Algunas funciones de
-OCR pueden tardar mas en equipos con pocos recursos.
+OCR pueden tardar más en equipos con pocos recursos.
 
 ## Restricciones
 

@@ -63,7 +63,7 @@ Manualtech puede incluir o utilizar componentes de terceros sujetos a sus
 propias licencias. Dichas licencias no modifican la propiedad de MSL
 MotorSuiteLab sobre Manualtech, pero pueden imponer obligaciones adicionales.
 
-Consulta THIRD_PARTY_NOTICES.md para mas informacion.
+Consulta THIRD_PARTY_NOTICES.md para más información.
 
 GARANTIA Y RESPONSABILIDAD
 

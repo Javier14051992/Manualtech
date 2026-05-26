@@ -13,7 +13,7 @@ PySide6 forma parte de Qt for Python y está disponible bajo licencias open sour
 Para una distribución propietaria cerrada, revisar si se usará licencia
 comercial de Qt o si se cumpliran estrictamente las obligaciones LGPL/GPL.
 
-Mas informacion:
+Más información:
 
 - https://doc.qt.io/qtforpython-6/commercial/index.html
 - https://www.qt.io/development/open-source-lgpl-obligations
@@ -25,7 +25,7 @@ PyMuPDF está disponible bajo AGPL o mediante licencia comercial. Para distribui
 Este es un requisito bloqueante antes de vender Manualtech como producto
 propietario cerrado.
 
-Mas informacion:
+Más información:
 
 - https://pymupdf.io/
 - https://mupdf.readthedocs.io/en/latest/license.html
@@ -37,7 +37,7 @@ Tesseract OCR se distribuye bajo Apache License 2.0.
 Los archivos de idioma OCR incluidos en `data/tessdata/` también deben
 mantener sus avisos y condiciones de redistribución correspondientes.
 
-Mas informacion:
+Más información:
 
 - https://tesseract-ocr.github.io/tessdoc/Installation.html
 - https://github.com/tesseract-ocr/tesseract
@@ -46,7 +46,7 @@ Mas informacion:
 
 SQLite está incluido normalmente con Python y su motor es de dominio público.
 
-Mas informacion:
+Más información:
 
 - https://www.sqlite.org/copyright.html
 
@@ -56,7 +56,7 @@ Inno Setup se utiliza para generar el instalador de Windows. Antes de publicar
 un instalador comercial, MSL MotorSuiteLab debe validar las condiciones de uso
 comercial vigentes de Inno Setup.
 
-Mas informacion:
+Más información:
 
 - https://jrsoftware.org/isinfo.php
 - https://jrsoftware.org/ishelp/topic_purchase.htm

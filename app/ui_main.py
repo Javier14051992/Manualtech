@@ -449,7 +449,7 @@ class MainWindow(QMainWindow):
         self.ocr_checkbox.setChecked(True)
         self.ocr_checkbox.setToolTip(
             "Intenta leer PDFs escaneados usando Tesseract OCR local. "
-            "Es mas lento y requiere Tesseract instalado."
+            "Es más lento y requiere Tesseract instalado."
         )
         self.search_button.clicked.connect(self._run_search)
         self.add_pdf_button.clicked.connect(self._add_pdf)
@@ -678,7 +678,7 @@ class MainWindow(QMainWindow):
             if existing:
                 QMessageBox.information(
                     self,
-                    "Carpeta ya anadida",
+                    "Carpeta ya añadida",
                     f"Esta carpeta ya está en la biblioteca:\n{existing.display_title}",
                 )
                 self._select_manual_in_list(existing.id)
@@ -752,7 +752,7 @@ class MainWindow(QMainWindow):
             else:
                 QMessageBox.information(
                     self,
-                    "Carpeta anadida",
+                    "Carpeta añadida",
                     "Las imágenes se convirtieron a PDF, se aplicó OCR y quedaron indexadas.",
                 )
         except sqlite3.IntegrityError:
