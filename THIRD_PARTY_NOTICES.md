@@ -11,7 +11,7 @@ componente.
 PySide6 forma parte de Qt for Python y está disponible bajo licencias open source LGPL/GPL o licencia comercial de Qt.
 
 Para una distribución propietaria cerrada, revisar si se usará licencia
-comercial de Qt o si se cumpliran estrictamente las obligaciones LGPL/GPL.
+comercial de Qt o si se cumplirán estrictamente las obligaciones LGPL/GPL.
 
 Más información:
 

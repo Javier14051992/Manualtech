@@ -1,4 +1,4 @@
-# Politica de privacidad de Manualtech
+# Política de privacidad de Manualtech
 
 Última actualización: 26 de mayo de 2026
 
@@ -16,13 +16,13 @@ Manualtech puede guardar localmente:
 
 - PDFs importados por el usuario.
 - PDFs creados desde carpetas de imágenes.
-- Texto extraido de los documentos.
+- Texto extraído de los documentos.
 - Base de datos SQLite local.
 - Previews de páginas.
 - Metadatos introducidos por el usuario.
-- Logs tecnicos de funcionamiento.
+- Logs técnicos de funcionamiento.
 
-## Ubicacion de datos
+## Ubicación de datos
 
 En modo instalado, los datos se guardan normalmente en:
 
@@ -34,9 +34,9 @@ En modo desarrollo, los datos se guardan dentro de la carpeta del proyecto.
 
 ## Comunicaciones externas
 
-Manualtech no sube automaticamente los manuales del usuario a MSL MotorSuiteLab.
+Manualtech no sube automáticamente los manuales del usuario a MSL MotorSuiteLab.
 
-Si en el futuro se incorporan funciones online, activacion, telemetria,
+Si en el futuro se incorporan funciones online, activación, telemetría,
 actualizaciones automáticas o soporte remoto, esta política deberá actualizarse
 antes de activar esas funciones.
 

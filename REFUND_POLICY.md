@@ -1,4 +1,4 @@
-# Politica de reembolsos de Manualtech
+# Política de reembolsos de Manualtech
 
 Última actualización: 26 de mayo de 2026
 
@@ -11,7 +11,7 @@ Manualtech se entrega como producto digital descargable.
 
 ## Reembolsos
 
-MSL MotorSuiteLab podra valorar solicitudes de reembolso segun la legislacion
+MSL MotorSuiteLab podrá valorar solicitudes de reembolso según la legislación
 aplicable, las condiciones publicadas en la página de venta y el estado de uso
 de la licencia.
 
@@ -27,7 +27,7 @@ El usuario debe revisar:
 
 ## Casos no cubiertos
 
-Salvo obligacion legal, pueden no aceptarse reembolsos cuando:
+Salvo obligación legal, pueden no aceptarse reembolsos cuando:
 
 - El producto ya ha sido descargado y activado.
 - El problema se debe a uso no compatible o no autorizado.
