@@ -2,6 +2,10 @@
 
 Última actualización: 26 de mayo de 2026
 
+Documento interno de referencia. La versión aplicable al comprador será la
+publicada en https://motorsuitelab.com y/o en la plataforma de pago en el
+momento de la compra.
+
 Esta política regula las solicitudes de reembolso relacionadas con la compra de
 Manualtech, software digital descargable propiedad de MSL MotorSuiteLab.
 

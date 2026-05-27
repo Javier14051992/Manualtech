@@ -10,9 +10,6 @@ datas = [
     (str(project_dir / "LICENSE.txt"), "."),
     (str(project_dir / "EULA.txt"), "."),
     (str(project_dir / "THIRD_PARTY_NOTICES.md"), "."),
-    (str(project_dir / "TERMS_OF_SALE.md"), "."),
-    (str(project_dir / "PRIVACY_POLICY.md"), "."),
-    (str(project_dir / "REFUND_POLICY.md"), "."),
     (str(project_dir / "README.md"), "."),
 ]
 

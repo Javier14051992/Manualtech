@@ -54,9 +54,6 @@ $PackageFiles = @(
     (Join-Path $ProjectRoot "LICENSE.txt"),
     (Join-Path $ProjectRoot "EULA.txt"),
     (Join-Path $ProjectRoot "THIRD_PARTY_NOTICES.md"),
-    (Join-Path $ProjectRoot "TERMS_OF_SALE.md"),
-    (Join-Path $ProjectRoot "PRIVACY_POLICY.md"),
-    (Join-Path $ProjectRoot "REFUND_POLICY.md"),
     (Join-Path $ProjectRoot "README.md")
 )
 
@@ -72,7 +69,23 @@ $BlockedEntries = @(
     "dist/",
     "installer_output/",
     "__pycache__/",
-    ".venv/"
+    ".venv/",
+    "app/",
+    "generar_serial.py",
+    "TERMS_OF_SALE.md",
+    "PRIVACY_POLICY.md",
+    "REFUND_POLICY.md",
+    "COMMERCIAL_RELEASE_CHECKLIST.md",
+    "TEST_WINDOWS_CLEAN.md",
+    "TEST_DOCUMENTS_PLAN.md"
+)
+
+$AllowedEntries = @(
+    "Manualtech_${Version}_Setup.exe",
+    "LICENSE.txt",
+    "EULA.txt",
+    "THIRD_PARTY_NOTICES.md",
+    "README.md"
 )
 
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -80,10 +93,17 @@ $Archive = [System.IO.Compression.ZipFile]::OpenRead($ZipPath)
 try {
     foreach ($Entry in $Archive.Entries) {
         $EntryName = $Entry.FullName.Replace("\", "/")
+        if ($AllowedEntries -notcontains $EntryName) {
+            throw "El ZIP contiene un archivo no previsto para distribución: $EntryName"
+        }
         foreach ($BlockedEntry in $BlockedEntries) {
             if ($EntryName.StartsWith($BlockedEntry, [System.StringComparison]::OrdinalIgnoreCase)) {
                 throw "El ZIP contiene una ruta no permitida: $EntryName"
             }
+        }
+        if ($EntryName.EndsWith(".py", [System.StringComparison]::OrdinalIgnoreCase) -or
+            $EntryName.EndsWith(".pyc", [System.StringComparison]::OrdinalIgnoreCase)) {
+            throw "El ZIP contiene código fuente o bytecode Python no permitido: $EntryName"
         }
         if ($EntryName.EndsWith(".pdf", [System.StringComparison]::OrdinalIgnoreCase)) {
             throw "El ZIP contiene un PDF privado o no permitido: $EntryName"

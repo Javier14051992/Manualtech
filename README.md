@@ -14,25 +14,22 @@ dentro de toda la biblioteca local.
 ## Estado comercial
 
 Manualtech 1.0.0 está preparado como **beta comercial de pago** para un grupo
-controlado de usuarios. No debe venderse todavía como producto final definitivo
-hasta completar `COMMERCIAL_RELEASE_CHECKLIST.md`.
+controlado de usuarios.
 
 La venta y distribución autorizada debe realizarse exclusivamente a través de:
 
 https://motorsuitelab.com
 
-Manualtech es software propietario de MSL MotorSuiteLab. Aunque el código esté
-visible en un repositorio, no se concede permiso para copiar, revender,
-redistribuir, republicar ni crear versiones derivadas sin autorización escrita.
-Consulta `LICENSE.txt` y `EULA.txt`.
+Manualtech es software propietario de MSL MotorSuiteLab. No se concede permiso
+para copiar, revender, redistribuir, republicar ni crear versiones derivadas sin
+autorización escrita. Consulta `LICENSE.txt` y `EULA.txt`.
 
-## Entrega digital y reembolsos
+## Condiciones comerciales
 
-Manualtech se entrega como producto digital descargable. La compra puede incluir
-un archivo ZIP con el instalador y una clave de activación. Manualtech no
-incluye manuales de taller. El usuario añade su propia documentación. La
-política de reembolsos se basa en la entrega digital del producto y en las
-condiciones aceptadas durante la compra.
+La compra, entrega digital, soporte y posibles reembolsos de Manualtech se
+regulan por las condiciones publicadas en https://motorsuitelab.com.
+Manualtech no incluye manuales de taller ni documentación oficial de
+fabricantes. El usuario añade su propia documentación bajo su responsabilidad.
 
 ## Funciones principales
 
@@ -71,133 +68,40 @@ Manualtech trabaja en local.
 Los manuales, la base de datos, las previews, la activación local y los logs se
 guardan en el equipo del usuario.
 
-## Estructura
+## Archivos incluidos
 
-```text
-BuscadorManualesTaller/
-|-- main.py
-|-- generar_serial.py
-|-- requirements.txt
-|-- README.md
-|-- LICENSE.txt
-|-- EULA.txt
-|-- TERMS_OF_SALE.md
-|-- PRIVACY_POLICY.md
-|-- REFUND_POLICY.md
-|-- COMMERCIAL_RELEASE_CHECKLIST.md
-|-- TEST_WINDOWS_CLEAN.md
-|-- TEST_DOCUMENTS_PLAN.md
-|-- THIRD_PARTY_NOTICES.md
-|-- Manualtech.spec
-|-- build_installer.ps1
-|-- app/
-|   |-- __init__.py
-|   |-- database.py
-|   |-- licensing.py
-|   |-- models.py
-|   |-- paths.py
-|   |-- pdf_processor.py
-|   |-- pdf_viewer.py
-|   |-- search_engine.py
-|   `-- ui_main.py
-|-- assets/
-|   |-- manualtech_logo.png
-|   `-- manualtech.ico
-|-- data/
-|   `-- tessdata/
-|       |-- eng.traineddata
-|       `-- spa.traineddata
-`-- installer/
-    `-- Manualtech.iss
-```
+El ZIP oficial de Manualtech incluye únicamente:
 
-Las carpetas de datos de usuario no deben subirse ni incluirse en el ZIP final:
+- `Manualtech_1.0.0_Setup.exe`
+- `README.md`
+- `LICENSE.txt`
+- `EULA.txt`
+- `THIRD_PARTY_NOTICES.md`
 
-- `data/manuales/`
-- `data/previews/`
-- `data/manuales.db`
-- `logs/`
-- `build/`
-- `dist/`
-- `installer_output/`
-- `release/`
-- `.venv/`
-- `__pycache__/`
+No incluye código fuente, generadores de claves, manuales privados, base de
+datos, logs, previews ni documentación comercial interna.
 
-## Requisitos para desarrollo
+## Requisitos
 
 - Windows 10 u 11.
-- Python 3.11 o superior.
-- SQLite con FTS5 habilitado, incluido normalmente en Python para Windows.
-- Dependencias Python:
-  - PySide6
-  - PyMuPDF
+- Permisos para instalar aplicaciones en la cuenta del usuario.
+- Espacio suficiente para guardar la biblioteca local de manuales.
 
-Instalación de dependencias:
+Manualtech no requiere Python instalado en el ordenador del usuario final.
 
-```powershell
-cd BuscadorManualesTaller
-python -m venv .venv
-.\.venv\Scripts\activate
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-```
+## Instalación y activación
 
-## Ejecutar en modo desarrollo
+1. Descomprime el ZIP descargado desde el canal oficial.
+2. Ejecuta `Manualtech_1.0.0_Setup.exe`.
+3. Sigue los pasos del instalador.
+4. Abre Manualtech desde el acceso directo creado.
+5. Introduce la clave de activación recibida tras la compra.
 
-```powershell
-python main.py
-```
-
-Al iniciar, si Manualtech no está activado, aparecerá la ventana de activación.
-Introduce un serial válido con formato:
-
-```text
-MT-XXXX-XXXX-XXXX-XXXX
-```
-
-En modo desarrollo, los datos se guardan dentro de la carpeta del proyecto:
-
-```text
-data/manuales/
-data/previews/
-data/manuales.db
-license.json
-logs/app.log
-```
-
-En modo instalado, los datos se guardan normalmente en:
+En modo instalado, los datos del usuario se guardan normalmente en:
 
 ```text
 %LOCALAPPDATA%\Manualtech\
 ```
-
-## Generar seriales beta
-
-Manualtech usa un serial local simple para esta primera beta comercial. No hay
-servidor, activación online, cuenta de usuario ni pagos integrados.
-
-Generar un serial:
-
-```powershell
-python generar_serial.py
-```
-
-Generar varios seriales:
-
-```powershell
-python generar_serial.py --cantidad 10
-```
-
-Ejemplo de formato:
-
-```text
-MT-7K2D-91PQ-A8ZL-R4TX
-```
-
-El serial no se guarda en texto plano. Manualtech guarda un archivo local de
-activación en `license.json` con producto, tipo de licencia, estado, fecha y
-hash de validación.
 
 ## Uso básico
 
@@ -274,102 +178,6 @@ winget install --id UB-Mannheim.TesseractOCR -e
 El OCR es más lento que extraer texto normal. Un manual escaneado grande puede
 tardar varios minutos.
 
-## Preparar beta comercial
-
-Flujo recomendado para preparar una beta de pago:
-
-1. Generar seriales para los testers:
-
-```powershell
-python generar_serial.py --cantidad 10
-```
-
-2. Compilar ejecutable, crear instalador y crear ZIP limpio:
-
-```powershell
-.\build_installer.ps1
-```
-
-3. Revisar el ZIP final:
-
-```text
-release/manualtech-1.0.zip
-```
-
-4. Probar en Windows limpio siguiendo:
-
-```text
-TEST_WINDOWS_CLEAN.md
-```
-
-5. Probar con documentos reales siguiendo:
-
-```text
-TEST_DOCUMENTS_PLAN.md
-```
-
-6. Entregar al usuario:
-
-- ZIP final o enlace de descarga.
-- Serial personal o clave de activación.
-- Aviso de que Manualtech no incluye manuales.
-- Aviso de que los documentos del usuario se guardan localmente.
-
-## Crear el ejecutable
-
-Instala PyInstaller:
-
-```powershell
-python -m pip install pyinstaller
-```
-
-Compila el ejecutable:
-
-```powershell
-python -m PyInstaller --noconfirm .\Manualtech.spec
-```
-
-Salida esperada:
-
-```text
-dist/Manualtech.exe
-```
-
-## Crear el instalador y ZIP beta
-
-Instala Inno Setup:
-
-```powershell
-winget install --id JRSoftware.InnoSetup -e
-```
-
-Después ejecuta:
-
-```powershell
-.\build_installer.ps1
-```
-
-Salidas esperadas:
-
-```text
-installer_output/Manualtech_1.0.0_Setup.exe
-release/manualtech-1.0.zip
-```
-
-El ZIP final incluye:
-
-- `Manualtech_1.0.0_Setup.exe`
-- `LICENSE.txt`
-- `EULA.txt`
-- `TERMS_OF_SALE.md`
-- `PRIVACY_POLICY.md`
-- `REFUND_POLICY.md`
-- `THIRD_PARTY_NOTICES.md`
-- `README.md`
-
-No incluye manuales, base de datos, previews, logs, builds anteriores ni PDFs
-privados.
-
 ## Licencia
 
 Manualtech es software propietario de MSL MotorSuiteLab. Su distribución
@@ -379,18 +187,9 @@ Consulta:
 
 - `LICENSE.txt`
 - `EULA.txt`
-- `TERMS_OF_SALE.md`
-- `PRIVACY_POLICY.md`
-- `REFUND_POLICY.md`
 - `THIRD_PARTY_NOTICES.md`
-- `COMMERCIAL_RELEASE_CHECKLIST.md`
 
-## Aviso sobre dependencias
+## Componentes de terceros
 
-PyMuPDF/MuPDF tiene condiciones de licencia importantes. Si Manualtech va a
-distribuirse como producto propietario cerrado, conviene revisar la licencia
-comercial de PyMuPDF/MuPDF o sustituir esa dependencia por una alternativa
-compatible.
-
-PySide6/Qt también tiene obligaciones de licencia open source/comercial que
-deben revisarse antes de distribuir una versión final.
+Manualtech utiliza componentes de terceros con sus propias licencias. Consulta
+`THIRD_PARTY_NOTICES.md` para más información.

@@ -2,6 +2,10 @@
 
 Última actualización: 26 de mayo de 2026
 
+Documento interno de referencia. Las condiciones aplicables al comprador serán
+las publicadas en https://motorsuitelab.com y/o en la plataforma de pago en el
+momento de la compra.
+
 Estos términos son una base comercial para Manualtech. Deben revisarse con un
 profesional legal antes de publicar la venta final.
 
