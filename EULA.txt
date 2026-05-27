@@ -28,6 +28,11 @@ MSL MotorSuiteLab concede al usuario una licencia limitada, personal, no
 exclusiva, no transferible y revocable para instalar y usar Manualtech en los
 equipos autorizados por su compra o acuerdo comercial.
 
+Manualtech puede entregarse como producto digital descargable mediante un
+archivo ZIP con instalador, documentación asociada y clave de activación. La
+clave de activación no puede revenderse, publicarse, compartirse ni copiarse
+fuera de las condiciones de compra.
+
 4. RESTRICCIONES
 
 El usuario no puede copiar, revender, redistribuir, publicar, alquilar,
@@ -40,6 +45,10 @@ previo y por escrito de MSL MotorSuiteLab.
 Manualtech guarda los documentos, bases de datos, previews y logs en el equipo
 del usuario. El usuario conserva la propiedad de sus archivos y es responsable
 de sus copias de seguridad.
+
+Manualtech no incluye manuales de taller, documentación oficial de fabricantes
+ni contenidos técnicos de terceros. El usuario es responsable de los documentos
+que importa y del derecho a utilizarlos.
 
 6. FUNCIONAMIENTO LOCAL
 

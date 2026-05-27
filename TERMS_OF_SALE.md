@@ -16,15 +16,41 @@ https://motorsuitelab.com
 Manualtech es un software local para Windows orientado a organizar, indexar y
 buscar manuales de taller almacenados por el usuario.
 
+Manualtech no incluye manuales de taller, documentación oficial de fabricantes
+ni contenidos técnicos de terceros. El usuario añade su propia documentación
+bajo su responsabilidad.
+
 ## Entrega
 
-La entrega se realiza mediante descarga digital desde el canal oficial de MSL
-MotorSuiteLab. El instalador no debe redistribuirse por canales no autorizados.
+La entrega se realiza como producto digital descargable desde el canal oficial
+de MSL MotorSuiteLab. La compra puede incluir un archivo ZIP con el instalador,
+documentación asociada y una clave de activación válida.
+
+Al tratarse de un producto digital, la entrega puede producirse de forma
+inmediata tras el pago. El instalador, el ZIP y la clave de activación no deben
+redistribuirse por canales no autorizados.
 
 ## Licencia
 
 La compra concede una licencia de uso limitada. No transfiere la propiedad del
 software. El uso queda sujeto a `LICENSE.txt` y `EULA.txt`.
+
+La clave de activación se entrega para el uso autorizado de Manualtech. No puede
+revenderse, publicarse, compartirse ni copiarse fuera de las condiciones de la
+compra.
+
+## Desistimiento y reembolsos
+
+La política de reembolsos se basa en la entrega digital del producto, el envío
+del enlace de descarga y/o la entrega de una clave de activación válida, además
+de las condiciones aceptadas durante la compra.
+
+Cada solicitud de reembolso se revisará conforme a la legislación aplicable. No
+se garantiza un reembolso cuando el producto digital ya haya sido entregado y se
+haya enviado una clave válida, salvo obligación legal o incidencia atribuible al
+proceso de entrega.
+
+Consulta `REFUND_POLICY.md` para más información.
 
 ## Soporte
 

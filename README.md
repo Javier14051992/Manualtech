@@ -26,6 +26,14 @@ visible en un repositorio, no se concede permiso para copiar, revender,
 redistribuir, republicar ni crear versiones derivadas sin autorización escrita.
 Consulta `LICENSE.txt` y `EULA.txt`.
 
+## Entrega digital y reembolsos
+
+Manualtech se entrega como producto digital descargable. La compra puede incluir
+un archivo ZIP con el instalador y una clave de activación. Manualtech no
+incluye manuales de taller. El usuario añade su propia documentación. La
+política de reembolsos se basa en la entrega digital del producto y en las
+condiciones aceptadas durante la compra.
+
 ## Funciones principales
 
 - Aplicación de escritorio local creada con Python y PySide6.
@@ -302,8 +310,8 @@ TEST_DOCUMENTS_PLAN.md
 
 6. Entregar al usuario:
 
-- ZIP final.
-- Serial personal.
+- ZIP final o enlace de descarga.
+- Serial personal o clave de activación.
 - Aviso de que Manualtech no incluye manuales.
 - Aviso de que los documentos del usuario se guardan localmente.
 
