@@ -43,10 +43,19 @@ def main() -> int:
 
     try:
         license_manager = LicenseManager(data_root)
-        if not license_manager.is_activated():
+        license_status = license_manager.status()
+        if not license_status.active and license_status.reason == "no_license":
             activation_dialog = ActivationDialog(license_manager)
             if activation_dialog.exec() != QDialog.DialogCode.Accepted:
                 return 0
+            license_status = license_manager.status()
+        elif not license_status.active:
+            QMessageBox.critical(
+                None,
+                APP_NAME,
+                license_status.blocking_message or "La licencia local no es válida.",
+            )
+            return 0
 
         database = Database(data_root)
         search_engine = SearchEngine(database)
@@ -57,7 +66,7 @@ def main() -> int:
             database=database,
             search_engine=search_engine,
             pdf_viewer=pdf_viewer,
-            license_status=license_manager.status(),
+            license_status=license_status,
         )
         window.show()
         return app.exec()

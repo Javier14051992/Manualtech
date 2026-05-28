@@ -21,8 +21,11 @@ lista.
 - [ ] Firmar `Manualtech.exe` y `Manualtech_Setup.exe` con certificado de firma
       de código.
 - [ ] Probar instalación en un Windows limpio sin Python instalado.
-- [ ] Probar activación con serial válido.
+- [ ] Probar activación online inicial con serial válido no usado.
 - [ ] Probar rechazo de serial inválido.
+- [ ] Probar rechazo de serial ya usado.
+- [ ] Probar funcionamiento offline después de activar.
+- [ ] Probar bloqueo por licencia caducada.
 - [ ] Probar importación de PDF con texto.
 - [ ] Probar importación de PDF escaneado con OCR.
 - [ ] Probar importación de carpeta de imágenes.
@@ -31,7 +34,8 @@ lista.
       aviso explícito.
 - [ ] Crear ZIP final sin datos privados y sin la palabra "Pruebas".
 - [ ] Publicar términos de venta, privacidad y reembolsos en motorsuitelab.com.
-- [ ] Decidir si habrá activación, clave offline o control de licencia.
+- [ ] Verificar que el ZIP final no incluye `activation_server/`,
+      `generar_serial.py`, seriales, bases de datos ni código fuente.
 
 ## Estado recomendado
 

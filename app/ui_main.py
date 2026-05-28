@@ -885,6 +885,9 @@ class MainWindow(QMainWindow):
                     f"Producto: {self.license_status.product}",
                     f"Estado: {self.license_status.state_label}",
                     f"Tipo de licencia: {self.license_status.license_type}",
+                    f"Fecha de activación: {self.license_status.activated_at_label}",
+                    f"Fecha de caducidad: {self.license_status.expires_at_label}",
+                    f"Días restantes: {self.license_status.days_remaining}",
                 ]
             ),
         )

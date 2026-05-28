@@ -1,79 +1,95 @@
 # Prueba en Windows limpio sin Python
 
-Objetivo: comprobar que Manualtech Beta se instala y funciona en un Windows 10
-u 11 limpio, sin Python ni dependencias instaladas manualmente.
+Objetivo: comprobar que Manualtech Beta se instala, activa y funciona en un
+Windows 10/11 limpio, sin Python ni dependencias instaladas manualmente.
 
 ## Preparación
 
-1. En el equipo de desarrollo, crear el instalador:
+1. En el equipo de desarrollo, generar el ZIP Beta:
 
 ```powershell
 .\build_installer.ps1
 ```
 
-2. Localizar el instalador:
+2. Localizar el ZIP:
 
 ```text
-installer_output/Manualtech_1.0.0_Setup.exe
+release/Manualtech_1.0.0_Beta_30dias_MSL.zip
 ```
 
-3. Copiar el instalador o el ZIP beta a un Windows limpio o máquina virtual:
+3. Preparar un serial válido ya cargado en el servidor de activación.
+4. Comprobar que el endpoint de producción responde por HTTPS:
 
 ```text
-release/Manualtech_1.0.0_Beta_MSL.zip
-```
-
-4. Tener preparado un serial válido generado con:
-
-```powershell
-python generar_serial.py
+https://motorsuitelab.com/api/manualtech/activate
 ```
 
 ## Pasos de prueba
 
-1. Extraer el ZIP beta en el Windows limpio.
-2. Ejecutar `Manualtech_1.0.0_Setup.exe`.
-3. Aceptar la EULA.
-4. Instalar la aplicación.
-5. Abrir Manualtech desde el menú Inicio o el acceso directo.
-6. Comprobar que no pide instalar Python.
-7. Comprobar que arranca correctamente.
-8. Introducir el serial en la ventana de activación.
+1. Copiar el ZIP Beta al Windows limpio o máquina virtual.
+2. Extraer el ZIP.
+3. Ejecutar `Manualtech_1.0.0_Setup.exe`.
+4. Aceptar la EULA.
+5. Instalar la aplicación.
+6. Abrir Manualtech desde el menú Inicio o acceso directo.
+7. Comprobar que no pide instalar Python.
+8. Introducir un serial Beta válido.
 9. Confirmar que se muestra:
 
 ```text
-Manualtech activado correctamente.
+Manualtech Beta activado correctamente.
 ```
 
-10. Comprobar que se crea la carpeta:
+10. Comprobar que se crea:
 
 ```text
-%LOCALAPPDATA%\Manualtech\
-```
-
-11. Comprobar que se crean:
-
-```text
+%LOCALAPPDATA%\Manualtech\license.json
 %LOCALAPPDATA%\Manualtech\data\
 %LOCALAPPDATA%\Manualtech\logs\
-%LOCALAPPDATA%\Manualtech\license.json
 ```
 
-12. Añadir un PDF de prueba.
-13. Buscar una palabra que exista en el PDF.
-14. Seleccionar un resultado y visualizar la página.
-15. Pulsar `Abrir PDF`.
-16. Verificar que Manualtech aparece en aplicaciones instaladas de Windows.
-17. Ejecutar el desinstalador.
-18. Comprobar que el desinstalador no borra la biblioteca del usuario sin aviso.
+11. Abrir “Estado de licencia” y comprobar:
+
+- Producto: Manualtech.
+- Estado: Activado.
+- Tipo de licencia: Beta 30 días.
+- Fecha de activación.
+- Fecha de caducidad.
+- Días restantes.
+
+12. Cerrar Manualtech.
+13. Desconectar internet o bloquear temporalmente el servidor.
+14. Abrir Manualtech de nuevo.
+15. Confirmar que funciona offline sin pedir serial.
+16. Añadir un PDF de prueba.
+17. Buscar una palabra que exista en el PDF.
+18. Seleccionar un resultado y visualizar la página.
+19. Pulsar `Abrir PDF`.
+20. Comprobar que Manualtech aparece en aplicaciones instaladas de Windows.
+21. Ejecutar el desinstalador.
+22. Comprobar que el desinstalador no borra la biblioteca del usuario sin aviso.
+
+## Prueba de caducidad simulada
+
+En una máquina de prueba, crear una copia de `license.json` antes de manipularlo.
+Después:
+
+1. Cambiar `expires_at` a una fecha pasada.
+2. Abrir Manualtech.
+3. Confirmar que la app bloquea el acceso por licencia no válida o caducada.
+4. Restaurar el `license.json` original.
+
+Nota: si se modifica manualmente una licencia firmada, la firma dejará de ser
+válida. Para una prueba exacta de caducidad, generar una licencia caducada desde
+un entorno controlado de pruebas.
 
 ## Resultado esperado
 
 - Manualtech abre sin errores.
 - La interfaz se muestra correctamente.
 - El logo aparece correctamente.
-- Se puede introducir serial.
-- Después de activar, se puede usar la app.
+- La activación inicial requiere internet.
+- Después de activar, Manualtech funciona offline hasta la caducidad.
 - Se puede añadir un PDF.
 - Se puede buscar.
 - Se puede visualizar una página.
@@ -105,6 +121,14 @@ data/tessdata/eng.traineddata
 data/tessdata/spa.traineddata
 ```
 
+### No conecta con activación
+
+Comprobar conexión a internet, HTTPS, DNS, firewall y disponibilidad del endpoint:
+
+```text
+https://motorsuitelab.com/api/manualtech/activate
+```
+
 ### Windows bloquea el ejecutable por no estar firmado
 
 Es normal en beta si el instalador no tiene firma digital. Para venta final,
@@ -121,12 +145,13 @@ Puede ocurrir con ejecutables nuevos generados con PyInstaller. Para reducirlo:
 
 ## Aprobación
 
-Marcar esta prueba como aprobada solo si:
-
 - [ ] Instala sin Python.
-- [ ] Arranca sin errores.
-- [ ] Permite activar con serial.
+- [ ] Activa online con serial válido.
+- [ ] Rechaza serial inválido.
+- [ ] Rechaza serial ya usado.
 - [ ] Crea carpetas locales correctamente.
+- [ ] Funciona offline después de activar.
+- [ ] Muestra días restantes.
 - [ ] Añade PDF.
 - [ ] Busca texto.
 - [ ] Muestra preview.

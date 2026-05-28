@@ -4,7 +4,7 @@
 
 Manualtech es una aplicación local de escritorio para Windows, propiedad de MSL
 MotorSuiteLab, pensada para guardar, clasificar, indexar y buscar manuales de
-taller sin usar servidores, nube ni servicios de pago.
+taller sin nube para documentos ni servicios de pago dentro de la app.
 
 El objetivo es sencillo: añadir PDFs o carpetas de imágenes de manuales, extraer
 texto página por página, aplicar OCR local si hace falta, indexarlo en SQLite
@@ -34,7 +34,8 @@ fabricantes. El usuario añade su propia documentación bajo su responsabilidad.
 ## Funciones principales
 
 - Aplicación de escritorio local creada con Python y PySide6.
-- Activación local mediante serial simple, sin servidor.
+- Activación Beta mediante serial online una sola vez.
+- Uso offline después de activar, hasta la caducidad de la licencia Beta.
 - Biblioteca local de manuales en PDF.
 - Importación de PDFs individuales.
 - Importación de carpetas con imágenes JPG, PNG, BMP, TIFF o WEBP.
@@ -61,7 +62,8 @@ fabricantes. El usuario añade su propia documentación bajo su responsabilidad.
 Manualtech trabaja en local.
 
 - No sube PDFs a internet.
-- No necesita servidor.
+- No necesita servidor para buscar ni gestionar la biblioteca local.
+- Solo contacta con MotorSuiteLab durante la activación inicial del serial Beta.
 - No necesita cuenta.
 - No necesita suscripciones.
 
