@@ -2,6 +2,8 @@
 
 Manualtech es un buscador local de manuales PDF de taller para Windows.
 
+Fecha prevista de salida de la Beta: **5 de junio de 2026**.
+
 ## Qué incluye
 
 - Instalador de Manualtech.

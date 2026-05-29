@@ -16,6 +16,8 @@ dentro de toda la biblioteca local.
 Manualtech 1.0.0 está preparado como **beta comercial de pago** para un grupo
 controlado de usuarios.
 
+Fecha prevista de salida de la Beta: **5 de junio de 2026**.
+
 La venta y distribución autorizada debe realizarse exclusivamente a través de:
 
 https://motorsuitelab.com

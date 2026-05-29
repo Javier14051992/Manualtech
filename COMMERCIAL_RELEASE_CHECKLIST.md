@@ -5,6 +5,8 @@
 Manualtech no debe publicarse como producto comercial final hasta completar esta
 lista.
 
+Fecha prevista de salida de la Beta: 5 de junio de 2026.
+
 ## Obligatorio antes de vender
 
 - [ ] Poner el repositorio de GitHub en privado si el código no debe estar
