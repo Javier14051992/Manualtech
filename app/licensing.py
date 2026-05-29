@@ -43,7 +43,7 @@ LICENSE_FILENAME = "license.json"
 VALID_DAYS = 30
 ACTIVATION_URL = os.environ.get(
     "MANUALTECH_ACTIVATION_URL",
-    "https://motorsuitelab.com/api/manualtech/activate",
+    "https://www.motorsuitelab.com/api/manualtech/activate",
 )
 
 SERIAL_PREFIX = "MT"
@@ -441,7 +441,7 @@ class LicenseManager:
                 logger.exception("No se pudo leer o parsear la respuesta HTTP de error: %s", error)
                 return ActivationResult(
                     False,
-                    "No se pudo completar la activación. Inténtalo más tarde.",
+                    "No se recibió una respuesta válida del servidor de activación.",
                 )
         except (urllib.error.URLError, TimeoutError, OSError) as error:
             logger.exception("Error de conexión durante activación: %s", error)
@@ -454,7 +454,7 @@ class LicenseManager:
             logger.exception("La respuesta de activación no es JSON válido: %s", error)
             return ActivationResult(
                 False,
-                "No se pudo completar la activación. Inténtalo más tarde.",
+                "No se recibió una respuesta válida del servidor de activación.",
             )
 
         if not response_payload.get("ok"):
