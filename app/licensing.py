@@ -5,6 +5,7 @@ import getpass
 import hashlib
 import hmac
 import json
+import logging
 import math
 import os
 import platform
@@ -32,6 +33,8 @@ from PySide6.QtWidgets import (
 
 from .paths import APP_NAME, resource_path
 
+
+logger = logging.getLogger(__name__)
 
 PRODUCT_NAME = APP_NAME
 APP_VERSION = "1.0.0-beta"
@@ -103,6 +106,40 @@ class LicenseStatus:
 class ActivationResult:
     ok: bool
     message: str
+
+
+def _short_hash(value: str, length: int = 8) -> str:
+    if not value:
+        return ""
+    return f"{value[:length]}..."
+
+
+def _mask_serial(serial: str) -> str:
+    normalized = normalize_serial(serial)
+    parts = normalized.split("-")
+    if len(parts) == 5:
+        return "-".join([parts[0], parts[1], "****", "****", "****"])
+    if len(normalized) > 6:
+        return f"{normalized[:6]}..."
+    return "***"
+
+
+def _redact_activation_payload(value: Any) -> Any:
+    if isinstance(value, dict):
+        redacted: dict[str, Any] = {}
+        for key, item in value.items():
+            if key == "serial":
+                redacted[key] = _mask_serial(str(item))
+            elif key in {"serial_hash", "machine_id_hash", "signature"}:
+                redacted[key] = _short_hash(str(item))
+            elif key == "license":
+                redacted[key] = _redact_activation_payload(item)
+            else:
+                redacted[key] = _redact_activation_payload(item)
+        return redacted
+    if isinstance(value, list):
+        return [_redact_activation_payload(item) for item in value]
+    return value
 
 
 def normalize_serial(serial: str) -> str:
@@ -339,15 +376,32 @@ class LicenseManager:
 
     def activate_online(self, serial: str) -> ActivationResult:
         normalized_serial = normalize_serial(serial)
-        if not validate_serial(normalized_serial):
+        serial_is_valid = validate_serial(normalized_serial)
+        machine_id_hash = get_machine_id_hash()
+        logger.info(
+            "Iniciando activación online. url=%s serial=%s machine_id_hash=%s validate_serial=%s",
+            ACTIVATION_URL,
+            _mask_serial(normalized_serial),
+            _short_hash(machine_id_hash),
+            serial_is_valid,
+        )
+        if not serial_is_valid:
+            logger.warning(
+                "Serial rechazado antes de enviar al servidor. serial=%s validate_serial=false",
+                _mask_serial(normalized_serial),
+            )
             return ActivationResult(False, "Clave de activación no válida.")
 
         request_payload = {
             "product": PRODUCT_NAME,
             "serial": normalized_serial,
-            "machine_id_hash": get_machine_id_hash(),
+            "machine_id_hash": machine_id_hash,
             "version": APP_VERSION,
         }
+        logger.info(
+            "Enviando petición de activación. payload=%s",
+            _redact_activation_payload(request_payload),
+        )
         request = urllib.request.Request(
             ACTIVATION_URL,
             data=json.dumps(request_payload).encode("utf-8"),
@@ -361,22 +415,43 @@ class LicenseManager:
 
         try:
             with urllib.request.urlopen(request, timeout=20) as response:
-                response_payload = json.loads(response.read().decode("utf-8"))
+                http_status = getattr(response, "status", response.getcode())
+                raw_response = response.read().decode("utf-8")
+                logger.info("Respuesta HTTP de activación recibida. status=%s", http_status)
+                response_payload = json.loads(raw_response)
+                logger.info(
+                    "Respuesta JSON de activación: %s",
+                    _redact_activation_payload(response_payload),
+                )
         except urllib.error.HTTPError as exc:
+            logger.warning(
+                "Error HTTP durante activación. status=%s reason=%s",
+                exc.code,
+                exc.reason,
+                exc_info=True,
+            )
             try:
-                response_payload = json.loads(exc.read().decode("utf-8"))
-            except (OSError, json.JSONDecodeError):
+                raw_response = exc.read().decode("utf-8")
+                response_payload = json.loads(raw_response)
+                logger.info(
+                    "Respuesta JSON de error HTTP: %s",
+                    _redact_activation_payload(response_payload),
+                )
+            except (OSError, json.JSONDecodeError) as error:
+                logger.exception("No se pudo leer o parsear la respuesta HTTP de error: %s", error)
                 return ActivationResult(
                     False,
                     "No se pudo completar la activación. Inténtalo más tarde.",
                 )
-        except (urllib.error.URLError, TimeoutError, OSError):
+        except (urllib.error.URLError, TimeoutError, OSError) as error:
+            logger.exception("Error de conexión durante activación: %s", error)
             return ActivationResult(
                 False,
                 "No se pudo conectar con el servidor de activación. "
                 "La activación inicial requiere conexión a internet.",
             )
-        except json.JSONDecodeError:
+        except json.JSONDecodeError as error:
+            logger.exception("La respuesta de activación no es JSON válido: %s", error)
             return ActivationResult(
                 False,
                 "No se pudo completar la activación. Inténtalo más tarde.",
@@ -387,40 +462,81 @@ class LicenseManager:
                 "message",
                 "No se pudo completar la activación. Inténtalo más tarde.",
             )
+            logger.warning(
+                "El servidor rechazó la activación. error=%s message=%s payload=%s",
+                response_payload.get("error"),
+                message,
+                _redact_activation_payload(response_payload),
+            )
             return ActivationResult(False, str(message))
 
         license_payload = response_payload.get("license")
         if not isinstance(license_payload, dict):
-            return ActivationResult(
-                False,
-                "La respuesta del servidor de activación no es válida.",
+            logger.error(
+                "La respuesta de activación no contiene un campo license válido. payload=%s",
+                _redact_activation_payload(response_payload),
             )
-        if not hmac.compare_digest(
-            str(license_payload.get("serial_hash", "")),
-            hash_serial(normalized_serial),
-        ):
             return ActivationResult(
                 False,
-                "La respuesta del servidor de activación no es válida.",
+                "La licencia recibida no es válida. Contacta con soporte.",
+            )
+        received_serial_hash = str(license_payload.get("serial_hash", ""))
+        expected_serial_hash = hash_serial(normalized_serial)
+        if not hmac.compare_digest(received_serial_hash, expected_serial_hash):
+            logger.error(
+                "El serial_hash recibido no coincide con el esperado. received=%s expected=%s",
+                _short_hash(received_serial_hash),
+                _short_hash(expected_serial_hash),
+            )
+            return ActivationResult(
+                False,
+                "La licencia recibida no es válida. Contacta con soporte.",
             )
 
         license_status = validate_license_payload(license_payload)
+        logger.info(
+            "Resultado de validate_license_payload. active=%s reason=%s expires_at=%s days_remaining=%s",
+            license_status.active,
+            license_status.reason,
+            license_status.expires_at,
+            license_status.days_remaining,
+        )
         if not license_status.active:
+            logger.warning(
+                "Licencia recibida no activa. reason=%s blocking_message=%s",
+                license_status.reason,
+                license_status.blocking_message,
+            )
+            if license_status.reason == "invalid_signature":
+                return ActivationResult(False, "La firma de la licencia no es válida.")
+            if license_status.blocking_message:
+                return ActivationResult(False, license_status.blocking_message)
             return ActivationResult(
                 False,
-                license_status.blocking_message
-                or "La respuesta del servidor de activación no es válida.",
+                "La licencia recibida no es válida. Contacta con soporte.",
             )
 
         try:
             self.data_root.mkdir(parents=True, exist_ok=True)
+            logger.info("Guardando licencia local en: %s", self.license_path)
             self.license_path.write_text(
                 json.dumps(license_payload, indent=2, ensure_ascii=False),
                 encoding="utf-8",
             )
-        except OSError:
+            logger.info("Licencia local guardada correctamente.")
+        except OSError as error:
+            logger.exception(
+                "No se pudo guardar license.json en %s: %s",
+                self.license_path,
+                error,
+            )
             return ActivationResult(False, "No se pudo guardar la activación.")
 
+        logger.info(
+            "Activación completada correctamente. serial=%s machine_id_hash=%s",
+            _mask_serial(normalized_serial),
+            _short_hash(machine_id_hash),
+        )
         return ActivationResult(
             True,
             response_payload.get("message", "Manualtech Beta activado correctamente."),

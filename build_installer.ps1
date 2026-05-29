@@ -12,7 +12,12 @@ Write-Host "Limpiando builds anteriores..."
 foreach ($DirName in @("build", "dist", "installer_output", "release")) {
     $DirPath = Join-Path $ProjectRoot $DirName
     if (Test-Path $DirPath) {
-        Remove-Item -LiteralPath $DirPath -Recurse -Force
+        if ($DirName -eq "release") {
+            Get-ChildItem -LiteralPath $DirPath -Force | Remove-Item -Recurse -Force
+        }
+        else {
+            Remove-Item -LiteralPath $DirPath -Recurse -Force
+        }
     }
 }
 
