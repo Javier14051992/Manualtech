@@ -8,9 +8,9 @@ datas = [
     (str(project_dir / "assets"), "assets"),
     (str(project_dir / "data" / "tessdata"), "data/tessdata"),
     (str(project_dir / "LICENSE.txt"), "."),
-    (str(project_dir / "EULA.txt"), "."),
     (str(project_dir / "THIRD_PARTY_NOTICES.md"), "."),
-    (str(project_dir / "README_USUARIO_BETA.md"), "."),
+    (str(project_dir / "README.md"), "."),
+    (str(project_dir / "SOURCE_CODE.md"), "."),
 ]
 
 

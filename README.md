@@ -2,42 +2,25 @@
 
 ![Logo de Manualtech](assets/manualtech_logo.png)
 
-Manualtech es una aplicación local de escritorio para Windows, propiedad de MSL
-MotorSuiteLab, pensada para guardar, clasificar, indexar y buscar manuales de
-taller sin nube para documentos ni servicios de pago dentro de la app.
+**Manualtech** es una aplicación de escritorio open source para Windows pensada para guardar, clasificar, indexar y buscar documentación técnica de taller de forma local.
 
-El objetivo es sencillo: añadir PDFs o carpetas de imágenes de manuales, extraer
-texto página por página, aplicar OCR local si hace falta, indexarlo en SQLite
-FTS5 y encontrar rápidamente una avería, pieza, procedimiento, código o sistema
-dentro de toda la biblioteca local.
+El objetivo es sencillo: añadir PDFs o carpetas de imágenes, extraer el texto página por página, aplicar OCR local cuando sea necesario, indexarlo con SQLite FTS5 y encontrar rápidamente una avería, pieza, procedimiento, código o sistema dentro de toda la biblioteca.
 
-## Estado comercial
+## Open source y privacidad
 
-Manualtech 1.0.0 está preparado como **beta comercial de pago** para un grupo
-controlado de usuarios.
+Manualtech funciona **sin cuenta, sin códigos de instalación, sin activación y sin suscripción**.
 
-Fecha prevista de salida de la Beta: **5 de junio de 2026**.
+- El código fuente está disponible en este repositorio.
+- Los documentos del usuario no se suben a la nube.
+- La búsqueda y el indexado se realizan localmente.
+- No existe servidor de activación ni comprobación de seriales.
+- Los manuales, la base de datos, las previews y los logs se guardan en el equipo del usuario.
 
-La venta y distribución autorizada debe realizarse exclusivamente a través de:
-
-https://motorsuitelab.com
-
-Manualtech es software propietario de MSL MotorSuiteLab. No se concede permiso
-para copiar, revender, redistribuir, republicar ni crear versiones derivadas sin
-autorización escrita. Consulta `LICENSE.txt` y `EULA.txt`.
-
-## Condiciones comerciales
-
-La compra, entrega digital, soporte y posibles reembolsos de Manualtech se
-regulan por las condiciones publicadas en https://motorsuitelab.com.
-Manualtech no incluye manuales de taller ni documentación oficial de
-fabricantes. El usuario añade su propia documentación bajo su responsabilidad.
+Manualtech se distribuye bajo **GNU Affero General Public License v3.0 o posterior (AGPL-3.0-or-later)**. Consulta `LICENSE.txt`.
 
 ## Funciones principales
 
 - Aplicación de escritorio local creada con Python y PySide6.
-- Activación Beta mediante serial online una sola vez.
-- Uso offline después de activar, hasta la caducidad de la licencia Beta.
 - Biblioteca local de manuales en PDF.
 - Importación de PDFs individuales.
 - Importación de carpetas con imágenes JPG, PNG, BMP, TIFF o WEBP.
@@ -48,58 +31,44 @@ fabricantes. El usuario añade su propia documentación bajo su responsabilidad.
 - Búsqueda de texto completo con SQLite FTS5.
 - Resultados con documento, página, fragmento y metadatos.
 - Fragmentos con coincidencias resaltadas.
-- Vista previa de la página encontrada renderizada como imagen.
-- Apertura del PDF desde el programa, intentando abrir en la página encontrada
-  cuando el visor lo permite.
-- Clasificación por categoría: coche, moto, reparación general,
-  electrónica/diagnosis, herramientas/procedimientos, ficha propia u otro.
+- Vista previa de la página encontrada.
+- Apertura del PDF desde el programa, intentando abrir en la página encontrada cuando el visor lo permite.
+- Clasificación por categoría, marca, modelo, año, motor, sistema, tipo, idioma y notas.
 - Gestión de biblioteca desde un diálogo separado.
 - Reindexado completo.
 - Eliminación de manuales.
-- Logo e icono de Manualtech.
-- Instalador de Windows con Inno Setup, EULA y desinstalador.
+- Instalador de Windows con Inno Setup.
 
-## Privacidad
+## Qué NO incluye Manualtech
 
-Manualtech trabaja en local.
-
-- No sube PDFs a internet.
-- No necesita servidor para buscar ni gestionar la biblioteca local.
-- Solo contacta con MotorSuiteLab durante la activación inicial del serial Beta.
-- No necesita cuenta.
-- No necesita suscripciones.
-
-Los manuales, la base de datos, las previews, la activación local y los logs se
-guardan en el equipo del usuario.
-
-## Archivos incluidos
-
-El ZIP oficial de Manualtech incluye únicamente:
-
-- `Manualtech_1.0.0_Setup.exe`
-- `README.md`
-- `LICENSE.txt`
-- `EULA.txt`
-- `THIRD_PARTY_NOTICES.md`
-
-No incluye código fuente, generadores de claves, manuales privados, base de
-datos, logs, previews ni documentación comercial interna.
+Manualtech **no incluye manuales de taller ni documentación oficial de fabricantes**. Cada usuario debe añadir únicamente documentación que tenga derecho a utilizar y es responsable de cumplir las condiciones aplicables a esos documentos.
 
 ## Requisitos
 
-- Windows 10 u 11.
-- Permisos para instalar aplicaciones en la cuenta del usuario.
-- Espacio suficiente para guardar la biblioteca local de manuales.
+### Para ejecutar desde código fuente
 
-Manualtech no requiere Python instalado en el ordenador del usuario final.
+- Python 3.11 o posterior recomendado.
+- Windows 10/11 es la plataforma principal actualmente.
+- Tesseract OCR es opcional para documentación escaneada.
 
-## Instalación y activación
+Instala las dependencias:
 
-1. Descomprime el ZIP descargado desde el canal oficial.
-2. Ejecuta `Manualtech_1.0.0_Setup.exe`.
-3. Sigue los pasos del instalador.
-4. Abre Manualtech desde el acceso directo creado.
-5. Introduce la clave de activación recibida tras la compra.
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+Ejecuta Manualtech:
+
+```powershell
+python main.py
+```
+
+No se solicita ningún serial ni clave de activación.
+
+## Datos locales
 
 En modo instalado, los datos del usuario se guardan normalmente en:
 
@@ -107,93 +76,94 @@ En modo instalado, los datos del usuario se guardan normalmente en:
 %LOCALAPPDATA%\Manualtech\
 ```
 
+La biblioteca de documentos y la base de datos del usuario no forman parte del repositorio.
+
 ## Uso básico
 
-1. Activa Manualtech con un serial válido.
-2. Pulsa `Añadir PDF` para importar un manual en PDF.
-3. Completa los metadatos disponibles: categoría, título, tema, marca, modelo,
-   año, motor, sistema, tipo, idioma y notas.
-4. Manualtech copia el PDF a la biblioteca local.
-5. Extrae el texto página por página.
+1. Ejecuta Manualtech.
+2. Pulsa `Añadir PDF` para importar un documento o `Añadir carpeta` para importar páginas en imágenes.
+3. Completa los metadatos disponibles.
+4. Manualtech copia el documento a la biblioteca local.
+5. Extrae el texto página por página y aplica OCR local si es necesario.
 6. Guarda las páginas en SQLite e indexa el contenido con FTS5.
 7. Busca desde la barra superior.
-8. Selecciona un resultado para ver la preview de la página.
-9. Usa `Abrir PDF` para abrir el documento con el visor predeterminado.
+8. Selecciona un resultado para ver la página encontrada.
+9. Usa `Abrir PDF` para abrir el documento original.
 
 ## Rendimiento con bibliotecas grandes
 
-Manualtech está preparado para manejar bibliotecas con muchos documentos y miles
-de páginas, con estas decisiones técnicas:
+Manualtech está preparado para trabajar con bibliotecas extensas mediante:
 
-- Indexado página a página por streaming para no cargar todo el texto del PDF en
-  memoria antes de guardarlo.
+- Indexado página a página por streaming para no cargar todo el texto del PDF en memoria.
 - SQLite en modo WAL para mejorar lecturas y escrituras locales.
-- SQLite FTS5 en modo external content para reducir duplicación de texto en la
-  base de datos.
-- Búsquedas limitadas a resultados relevantes para evitar saturar la interfaz.
-- Cache de previews limitada para que `data/previews/` no crezca sin control.
-- Reindexado con optimización del índice FTS al terminar.
+- SQLite FTS5 en modo external content para reducir duplicación de texto.
+- Límite de resultados para evitar saturar la interfaz.
+- Caché de previews limitada.
+- Optimización del índice FTS al terminar un reindexado.
 
 Limitaciones actuales:
 
-- La importación y el OCR se ejecutan en el proceso principal; durante manuales
-  grandes la interfaz puede quedar ocupada aunque muestre progreso.
-- El OCR de PDFs escaneados sigue siendo la operación más lenta.
-- Carpetas con miles de imágenes muy pesadas pueden requerir mucha memoria al
-  convertirse a PDF.
-
-## Carpetas de imágenes y OCR
-
-Manualtech puede importar una carpeta de imágenes y convertirla a PDF. Es útil
-cuando un manual está formado por páginas sueltas en JPG o PNG.
-
-Formatos aceptados:
-
-- `.jpg`
-- `.jpeg`
-- `.png`
-- `.bmp`
-- `.tif`
-- `.tiff`
-- `.webp`
-
-Después de crear el PDF, Manualtech intenta aplicar OCR local para que el
-contenido sea buscable.
+- La importación y el OCR se ejecutan en el proceso principal; documentos grandes pueden mantener la interfaz ocupada durante el procesamiento.
+- El OCR de PDFs escaneados es la operación más lenta.
+- Carpetas con miles de imágenes muy pesadas pueden requerir bastante memoria durante la conversión a PDF.
 
 ## OCR local
 
-El OCR no usa nube ni APIs. Se hace en local mediante Tesseract/OCR integrado
-por PyMuPDF.
+Manualtech no utiliza APIs cloud para OCR. Se apoya en Tesseract/PyMuPDF de forma local.
 
-El proyecto incluye datos OCR básicos en:
+El repositorio incluye datos OCR básicos en:
 
 ```text
 data/tessdata/eng.traineddata
 data/tessdata/spa.traineddata
 ```
 
-Si necesitas una instalación completa de Tesseract en Windows, puedes instalarla
-con:
+En Windows puedes instalar Tesseract con:
 
 ```powershell
 winget install --id UB-Mannheim.TesseractOCR -e
 ```
 
-El OCR es más lento que extraer texto normal. Un manual escaneado grande puede
-tardar varios minutos.
+## Crear el ejecutable e instalador de Windows
+
+El script `build_installer.ps1` instala las dependencias necesarias, genera el ejecutable con PyInstaller y crea el instalador mediante Inno Setup.
+
+```powershell
+.\build_installer.ps1
+```
+
+El instalador generado no requiere códigos de activación.
+
+## Dependencias y licencias de terceros
+
+Manualtech utiliza, entre otros componentes:
+
+- PySide6 / Qt for Python.
+- PyMuPDF / MuPDF.
+- Tesseract OCR.
+- SQLite.
+- Inno Setup para generar el instalador de Windows.
+
+Consulta `THIRD_PARTY_NOTICES.md` para conocer sus licencias y avisos.
 
 ## Licencia
 
-Manualtech es software propietario de MSL MotorSuiteLab. Su distribución
-comercial autorizada se realiza exclusivamente desde `motorsuitelab.com`.
+Copyright (c) 2026 MSL MotorSuiteLab.
 
-Consulta:
+El código de Manualtech se distribuye bajo **GNU Affero General Public License v3.0 o posterior (AGPL-3.0-or-later)**.
 
-- `LICENSE.txt`
-- `EULA.txt`
-- `THIRD_PARTY_NOTICES.md`
+Puedes usar, estudiar, modificar y redistribuir el programa respetando las condiciones de la AGPL. Las versiones modificadas que se distribuyan deben conservar las obligaciones de esta licencia y facilitar el código fuente correspondiente cuando proceda.
 
-## Componentes de terceros
+## Marca
 
-Manualtech utiliza componentes de terceros con sus propias licencias. Consulta
-`THIRD_PARTY_NOTICES.md` para más información.
+El nombre **Manualtech**, la identidad de **MSL MotorSuiteLab** y sus signos distintivos pueden estar protegidos como marcas o nombres comerciales. La licencia del código no concede permiso para presentar una versión modificada como producto oficial de MSL MotorSuiteLab ni para sugerir respaldo o afiliación inexistentes.
+
+Los forks son bienvenidos, pero deben diferenciarse claramente si modifican sustancialmente el producto o su identidad.
+
+## Contribuir
+
+Issues, propuestas de mejora y pull requests son bienvenidos. Consulta `CONTRIBUTING.md` antes de enviar cambios.
+
+Repositorio oficial:
+
+https://github.com/Javier14051992/Manualtech

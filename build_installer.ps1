@@ -4,7 +4,7 @@ $ProjectRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 Set-Location $ProjectRoot
 $Version = "1.0.0"
 
-Write-Host "== Manualtech build =="
+Write-Host "== Manualtech open-source build =="
 Write-Host "Project: $ProjectRoot"
 Write-Host "Version: $Version"
 
@@ -24,7 +24,7 @@ foreach ($DirName in @("build", "dist", "installer_output", "release")) {
 python -m pip install -r requirements.txt
 python -m pip install pyinstaller
 
-Write-Host "Compilando Manualtech Beta..."
+Write-Host "Compilando Manualtech..."
 python -m PyInstaller --noconfirm .\Manualtech.spec
 
 $InnoCandidates = @(
@@ -46,8 +46,8 @@ Write-Host "Creando instalador..."
 
 $InstallerPath = Join-Path $ProjectRoot "installer_output\Manualtech_${Version}_Setup.exe"
 $ReleaseDir = Join-Path $ProjectRoot "release"
-$PackageDir = Join-Path $ReleaseDir "Manualtech_${Version}_Beta_30dias_MSL"
-$ZipPath = Join-Path $ReleaseDir "Manualtech_${Version}_Beta_30dias_MSL.zip"
+$PackageDir = Join-Path $ReleaseDir "Manualtech_${Version}"
+$ZipPath = Join-Path $ReleaseDir "Manualtech_${Version}_Windows.zip"
 
 if (-not (Test-Path $InstallerPath)) {
     throw "No se encontró el instalador esperado: $InstallerPath"
@@ -58,45 +58,23 @@ New-Item -ItemType Directory -Path $PackageDir -Force | Out-Null
 
 Copy-Item -LiteralPath $InstallerPath -Destination (Join-Path $PackageDir "Manualtech_${Version}_Setup.exe") -Force
 Copy-Item -LiteralPath (Join-Path $ProjectRoot "LICENSE.txt") -Destination $PackageDir -Force
-Copy-Item -LiteralPath (Join-Path $ProjectRoot "EULA.txt") -Destination $PackageDir -Force
 Copy-Item -LiteralPath (Join-Path $ProjectRoot "THIRD_PARTY_NOTICES.md") -Destination $PackageDir -Force
-Copy-Item -LiteralPath (Join-Path $ProjectRoot "README_USUARIO_BETA.md") -Destination (Join-Path $PackageDir "README.md") -Force
+Copy-Item -LiteralPath (Join-Path $ProjectRoot "README.md") -Destination $PackageDir -Force
+Copy-Item -LiteralPath (Join-Path $ProjectRoot "SOURCE_CODE.md") -Destination $PackageDir -Force
 
-Write-Host "Creando ZIP beta 30 días..."
+Write-Host "Creando ZIP de distribución..."
 Compress-Archive -Path (Join-Path $PackageDir "*") -DestinationPath $ZipPath -Force
-
-$BlockedEntries = @(
-    "data/manuales",
-    "data/previews",
-    "data/manuales.db",
-    "logs/",
-    "build/",
-    "dist/",
-    "installer_output/",
-    "__pycache__/",
-    ".venv/",
-    "app/",
-    "activation_server/",
-    "generar_serial.py",
-    "README_USUARIO_BETA.md",
-    "TERMS_OF_SALE.md",
-    "PRIVACY_POLICY.md",
-    "REFUND_POLICY.md",
-    "COMMERCIAL_RELEASE_CHECKLIST.md",
-    "TEST_WINDOWS_CLEAN.md",
-    "TEST_DOCUMENTS_PLAN.md"
-)
 
 $AllowedEntries = @(
     "Manualtech_${Version}_Setup.exe",
     "LICENSE.txt",
-    "EULA.txt",
     "THIRD_PARTY_NOTICES.md",
-    "README.md"
+    "README.md",
+    "SOURCE_CODE.md"
 )
 
 Add-Type -AssemblyName System.IO.Compression.FileSystem
-Write-Host "Verificando que no se incluyen datos internos..."
+Write-Host "Verificando paquete..."
 $Archive = [System.IO.Compression.ZipFile]::OpenRead($ZipPath)
 try {
     foreach ($Entry in $Archive.Entries) {
@@ -104,24 +82,12 @@ try {
         if ($AllowedEntries -notcontains $EntryName) {
             throw "El ZIP contiene un archivo no previsto para distribución: $EntryName"
         }
-        foreach ($BlockedEntry in $BlockedEntries) {
-            if ($EntryName.StartsWith($BlockedEntry, [System.StringComparison]::OrdinalIgnoreCase)) {
-                throw "El ZIP contiene una ruta no permitida: $EntryName"
-            }
-        }
-        if ($EntryName.EndsWith(".py", [System.StringComparison]::OrdinalIgnoreCase) -or
-            $EntryName.EndsWith(".pyc", [System.StringComparison]::OrdinalIgnoreCase)) {
-            throw "El ZIP contiene código fuente o bytecode Python no permitido: $EntryName"
-        }
         if ($EntryName.EndsWith(".pdf", [System.StringComparison]::OrdinalIgnoreCase)) {
-            throw "El ZIP contiene un PDF privado o no permitido: $EntryName"
+            throw "El ZIP contiene un PDF no previsto: $EntryName"
         }
         if ($EntryName.EndsWith(".db", [System.StringComparison]::OrdinalIgnoreCase) -or
             $EntryName.EndsWith(".sqlite", [System.StringComparison]::OrdinalIgnoreCase)) {
-            throw "El ZIP contiene una base de datos no permitida: $EntryName"
-        }
-        if ($EntryName -like "seriales_*.txt" -or $EntryName -eq "license.json") {
-            throw "El ZIP contiene datos internos no permitidos: $EntryName"
+            throw "El ZIP contiene una base de datos no prevista: $EntryName"
         }
     }
 }
@@ -129,8 +95,8 @@ finally {
     $Archive.Dispose()
 }
 
-Write-Host "Release beta generado correctamente."
+Write-Host "Release open source generado correctamente."
 Write-Host "EXE: $ProjectRoot\dist\Manualtech.exe"
 Write-Host "Instalador: $InstallerPath"
-Write-Host "ZIP beta 30 días: $ZipPath"
-Write-Host "Revisa release\Manualtech_${Version}_Beta_30dias_MSL.zip antes de distribuir."
+Write-Host "ZIP: $ZipPath"
+Write-Host "Código fuente: https://github.com/Javier14051992/Manualtech"
