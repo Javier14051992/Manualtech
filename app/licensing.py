@@ -24,7 +24,7 @@ class LicenseStatus:
     activated_at: str = ""
     expires_at: str = ""
     valid_days: int = 0
-    days_remaining: int = 0
+    days_remaining: str = "No aplica"
     reason: str = "open_source"
 
     @property
