@@ -5,10 +5,10 @@ import sys
 from pathlib import Path
 
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QApplication, QDialog, QMessageBox
+from PySide6.QtWidgets import QApplication, QMessageBox
 
 from app.database import Database
-from app.licensing import ActivationDialog, LicenseManager
+from app.licensing import LicenseStatus
 from app.paths import APP_NAME, app_root, resource_path, user_root
 from app.pdf_viewer import PDFViewerService
 from app.search_engine import SearchEngine
@@ -42,21 +42,6 @@ def main() -> int:
         app.setWindowIcon(QIcon(str(logo_path)))
 
     try:
-        license_manager = LicenseManager(data_root)
-        license_status = license_manager.status()
-        if not license_status.active and license_status.reason == "no_license":
-            activation_dialog = ActivationDialog(license_manager)
-            if activation_dialog.exec() != QDialog.DialogCode.Accepted:
-                return 0
-            license_status = license_manager.status()
-        elif not license_status.active:
-            QMessageBox.critical(
-                None,
-                APP_NAME,
-                license_status.blocking_message or "La licencia local no es válida.",
-            )
-            return 0
-
         database = Database(data_root)
         search_engine = SearchEngine(database)
         pdf_viewer = PDFViewerService(database.previews_dir)
@@ -66,7 +51,7 @@ def main() -> int:
             database=database,
             search_engine=search_engine,
             pdf_viewer=pdf_viewer,
-            license_status=license_status,
+            license_status=LicenseStatus(),
         )
         window.show()
         return app.exec()
