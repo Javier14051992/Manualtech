@@ -1,14 +1,10 @@
 # Política de privacidad de Manualtech
 
-Última actualización: 26 de mayo de 2026
-
-Esta política es una base informativa para Manualtech. Debe revisarse con un
-profesional legal antes de publicar la venta final.
+Última actualización: 31 de agosto de 2026
 
 ## Funcionamiento local
 
-Manualtech funciona localmente en el equipo del usuario. Sus funciones
-principales no requieren cuenta, servidor ni subida de documentos.
+Manualtech funciona localmente en el equipo del usuario. Sus funciones principales no requieren cuenta, códigos de instalación, servidor de activación ni subida de documentos.
 
 ## Datos tratados por la aplicación
 
@@ -30,23 +26,22 @@ En modo instalado, los datos se guardan normalmente en:
 %LOCALAPPDATA%\Manualtech\
 ```
 
-En modo desarrollo, los datos se guardan dentro de la carpeta del proyecto.
+En modo desarrollo, los datos se guardan dentro de la carpeta del proyecto según la configuración de rutas de la aplicación.
 
 ## Comunicaciones externas
 
-Manualtech no sube automáticamente los manuales del usuario a MSL MotorSuiteLab.
+La versión open source actual de Manualtech no necesita comunicarse con MSL MotorSuiteLab para activarse y no envía automáticamente los documentos del usuario a MSL MotorSuiteLab.
 
-Si en el futuro se incorporan funciones online, activación, telemetría,
-actualizaciones automáticas o soporte remoto, esta política deberá actualizarse
-antes de activar esas funciones.
+Las dependencias, el sistema operativo o herramientas externas instaladas por el usuario pueden tener sus propias políticas y comportamientos, independientes de Manualtech.
+
+Si en el futuro se incorporan funciones online, telemetría, actualizaciones automáticas o servicios remotos, esta política deberá actualizarse antes de habilitar dichas funciones en una versión oficial.
 
 ## Responsabilidad del usuario
 
-El usuario es responsable de los documentos que importa, del derecho a usarlos y
-de conservar copias de seguridad.
+El usuario es responsable de los documentos que importa, de disponer del derecho a utilizarlos y de conservar las copias de seguridad que considere necesarias.
 
 ## Contacto
 
-Para consultas de privacidad, utiliza los canales publicados en:
+Para consultas relacionadas con el proyecto, utiliza el repositorio oficial:
 
-https://motorsuitelab.com
+https://github.com/Javier14051992/Manualtech
