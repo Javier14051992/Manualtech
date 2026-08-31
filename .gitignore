@@ -14,19 +14,11 @@ logs/
 *.log
 
 # Manualtech user data
-license.json
-*.license.json
-seriales_beta.txt
-seriales_*.txt
 data/manuales/**
 data/previews/**
 data/manuales.db
 data/*.db
 data/*.db-*
-activation_server/*.db
-activation_server/*.sqlite
-activation_server/*.sqlite-*
-activation_server/.env
 
 # Keep bundled OCR language data
 !data/
