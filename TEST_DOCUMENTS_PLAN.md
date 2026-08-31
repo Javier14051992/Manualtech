@@ -1,7 +1,6 @@
 # Plan de prueba con documentos reales
 
-Objetivo: validar Manualtech Beta con documentos típicos antes de entregarlo a
-usuarios de pago.
+Objetivo: validar Manualtech con documentos técnicos típicos antes de publicar una versión estable.
 
 ## Tabla de pruebas
 
@@ -21,13 +20,11 @@ Debe añadirse, indexarse y permitir búsqueda inmediata sin depender de OCR.
 
 ### Prueba 2: PDF escaneado sin texto
 
-Debe añadirse. Con OCR local activado debe intentar extraer texto. Si no hay
-Tesseract/OCR disponible, debe mostrar un aviso claro.
+Debe añadirse. Con OCR local activado debe intentar extraer texto. Si no hay Tesseract/OCR disponible, debe mostrar un aviso claro.
 
 ### Prueba 3: PDF grande
 
-Debe comprobarse que Manualtech no se cierra y que muestra progreso. Si tarda,
-debe informar al usuario mediante la barra de estado.
+Debe comprobarse que Manualtech no se cierra y que muestra progreso. Si tarda, debe informar al usuario mediante la barra de estado.
 
 ### Prueba 4: PDF protegido con contraseña
 
@@ -39,8 +36,7 @@ El PDF está protegido con contraseña y no se puede indexar.
 
 ### Prueba 5: Carpeta de imágenes
 
-Debe convertir imágenes a PDF, aplicar OCR local si está disponible e indexar el
-resultado.
+Debe convertir imágenes a PDF, aplicar OCR local si está disponible e indexar el resultado.
 
 ## Checklist final
 
@@ -52,5 +48,8 @@ resultado.
 - [ ] Abrir PDF probado.
 - [ ] Reindexar probado.
 - [ ] Eliminar manual probado.
-- [ ] No se sube nada a internet.
+- [ ] Manualtech arranca sin serial, cuenta ni activación.
+- [ ] La funcionalidad principal funciona sin internet.
+- [ ] No se sube automáticamente ningún manual del usuario a internet.
 - [ ] No se incluyen manuales privados en el ZIP final.
+- [ ] El paquete incluye licencia y referencia al código fuente.
